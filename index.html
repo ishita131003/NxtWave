@@ -825,12 +825,119 @@
         margin-bottom: 20px;
       }
       .public-home details {
-        padding: 16px 4px;
+        margin: 0;
+        padding: 0;
+        border: 1px solid transparent;
+        border-radius: 14px;
+        transition:
+          background 0.25s ease,
+          border-color 0.25s ease,
+          transform 0.25s ease;
       }
       .public-home details p {
         max-width: 760px;
-        margin: 10px 0 2px;
+        margin: 0;
+        padding: 0 18px 18px 46px;
         color: var(--mu);
+      }
+      .public-home details + details {
+        margin-top: 8px;
+      }
+      .public-home details[open] {
+        background: linear-gradient(110deg, #151d4a99, #0e143066);
+        border-color: #3a4b91;
+        transform: translateX(4px);
+      }
+      .public-home summary {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 18px;
+        list-style: none;
+        color: #e9edff;
+        transition: color 0.2s ease;
+      }
+      .public-home summary::-webkit-details-marker {
+        display: none;
+      }
+      .public-home summary::before {
+        content: "+";
+        display: grid;
+        place-items: center;
+        width: 26px;
+        height: 26px;
+        border: 1px solid #5366bc;
+        border-radius: 50%;
+        color: var(--cy);
+        font-size: 19px;
+        font-weight: 400;
+        line-height: 1;
+        transition:
+          transform 0.25s ease,
+          background 0.25s ease,
+          color 0.25s ease;
+      }
+      .public-home details[open] summary {
+        color: #fff;
+      }
+      .public-home details[open] summary::before {
+        content: "−";
+        transform: rotate(180deg);
+        background: linear-gradient(135deg, var(--cy), var(--pr));
+        color: #fff;
+      }
+      .public-home details p {
+        animation: faqAnswerIn 0.3s ease-out both;
+      }
+      .start-card {
+        position: relative;
+        overflow: hidden;
+        margin-top: 36px !important;
+        padding: 44px 24px !important;
+        background:
+          radial-gradient(circle at 50% 0%, #7c6cff44, transparent 55%),
+          linear-gradient(145deg, #151d4a, #0b1028 72%);
+        border-color: #465493;
+        box-shadow:
+          0 20px 50px #0009,
+          inset 0 1px 0 #ffffff1a;
+      }
+      .start-card::before {
+        content: "";
+        position: absolute;
+        width: 240px;
+        height: 240px;
+        left: 50%;
+        top: -180px;
+        transform: translateX(-50%);
+        border-radius: 50%;
+        background: #22d3ee33;
+        filter: blur(28px);
+        animation: ctaPulse 4s ease-in-out infinite;
+      }
+      .start-card > * {
+        position: relative;
+      }
+      .start-card h2 {
+        margin-top: 0 !important;
+        margin-bottom: 20px;
+      }
+      .start-card .btn {
+        padding: 12px 22px;
+        font-weight: 700;
+      }
+      @keyframes faqAnswerIn {
+        from {
+          opacity: 0;
+          transform: translateY(-6px);
+        }
+      }
+      @keyframes ctaPulse {
+        50% {
+          opacity: 0.55;
+          transform: translateX(-50%) scale(1.2);
+        }
       }
       .top {
         padding: 10px max(16px, calc((100vw - 1100px) / 2));
@@ -1685,14 +1792,14 @@
       const sel = (n, o, v = "", ph = "Select") =>
         `<select name="${n}" required><option value="">${ph}</option>${o.map((x) => `<option ${x === v ? "selected" : ""}>${esc(x)}</option>`).join("")}</select>`;
       const faq = `<details><summary>Is it free?</summary><p>Yes, the workshop is planned as free, online and beginner-friendly.</p></details><details><summary>When is the workshop?</summary><p>The date and joining link are not confirmed yet. Registered students will be informed once they are.</p></details><details><summary>Is there a certificate or placement guarantee?</summary><p>Nothing is promised beyond what is confirmed. This page makes no placement or certificate claims.</p></details><details><summary>What is the "7 days"?</summary><p>That is the registration campaign period, separate from the (unconfirmed) workshop schedule.</p></details>`;
-      const info = `<div class="grid"><div class="card info-card"><h3>Who should attend</h3><ul class="info-list"><li>Final-year students in 3rd or 4th year of B.E./B.Tech.</li><li>Students from CSE, IT, AI/ML and related branches.</li><li>Students from any engineering discipline curious about AI.</li><li>Students who want to build practical skills.</li><li>Students preparing for placements, internships or their first software development role.</li></ul></div><div class="card info-card"><h3>What to expect</h3><ul class="info-list"><li>A free, beginner-friendly online AI workshop.</li><li>Hands-on exposure to AI development.</li><li>Guidance to explore and build your first AI project.</li><li>A practical learning experience in just 60 minutes.</li><li>An opportunity to move from AI theory to project-based learning.</li></ul></div><div class="card info-card"><h3>Why it is useful</h3><ul class="info-list"><li><span><b>Practical learning:</b> Explore how AI concepts can be applied.</span></li><li><span><b>Career readiness:</b> Take a first step toward developing project-building skills.</span></li><li><span><b>Portfolio potential:</b> Get inspiration for a personal AI project.</span></li><li><span><b>Zero cost:</b> Learn without a registration fee.</span></li><li><span><b>Time-friendly:</b> Explore AI without committing to a lengthy course.</span></li></ul></div></div><div class="card" style="margin-top:14px;background:var(--wn);color:var(--wt);border-color:var(--wt);font-weight:700;text-align:center"><strong>Core message:</strong> “Don't just learn about AI. Build your first AI project in 60 minutes—for free.”</div><h2 style="margin-top:24px">FAQ</h2>${faq}`;
+      const info = `<div class="grid"><div class="card info-card"><h3>Who should attend</h3><ul class="info-list"><li>Final-year students in 3rd or 4th year of B.E./B.Tech.</li><li>Students from CSE, IT, AI/ML and related branches.</li><li>Students from any engineering discipline curious about AI.</li><li>Students who want to build practical skills.</li><li>Students preparing for placements, internships or their first software development role.</li></ul></div><div class="card info-card"><h3>What to expect</h3><ul class="info-list"><li>A free, beginner-friendly online AI workshop.</li><li>Hands-on exposure to AI development.</li><li>Guidance to explore and build your first AI project.</li><li>A practical learning experience in just 60 minutes.</li><li>An opportunity to move from AI theory to project-based learning.</li></ul></div><div class="card info-card"><h3>Why it is useful</h3><ul class="info-list"><li><span><b>Practical learning:</b> Explore how AI concepts can be applied.</span></li><li><span><b>Career readiness:</b> Take a first step toward developing project-building skills.</span></li><li><span><b>Portfolio potential:</b> Get inspiration for a personal AI project.</span></li><li><span><b>Zero cost:</b> Learn without a registration fee.</span></li><li><span><b>Time-friendly:</b> Explore AI without committing to a lengthy course.</span></li></ul></div></div><div class="card" style="margin-top:14px;background:var(--wn);color:var(--wt);border-color:var(--wt);font-weight:700;text-align:center"><strong>Core message:</strong> “Don't just learn about AI. Build your first AI project in 60 minutes—for free.”</div><h2 class="faq-title" style="margin-top:24px">FAQ</h2>${faq}`;
       /* views */
       const V = {
         home() {
           const n = stu().length,
             t = DB.camp.target;
           return pub(
-            `<section class="hero"><video id="hv" class="hv" muted autoplay loop playsinline aria-hidden="true"></video><div class="hov"></div><div class="chips"><span>Free</span><span>Online</span><span>60 minutes</span><span>Beginner-friendly</span></div><h1>Stop Just Exploring AI. Start Building It.</h1><p>Turn your curiosity about AI into hands-on experience. Join a free, beginner-friendly workshop to explore AI development, build practical skills, and take your first step toward creating a project of your own—all in just 60 minutes.</p><!-- <div class="pg" role="progressbar" aria-valuenow="${n}" aria-valuemax="${t}"><i style="width:${Math.min(100, (n / t) * 100)}%"></i></div><p><span class="kpi"><b style="display:inline;font-size:inherit">${n}</b></span> of ${t} registrations · ${((n / t) * 100).toFixed(1)}% <span class="tag">DEMO DATA</span></p> --><div class="acts"><button class="btn p" data-a="go" data-v="register">Start building</button><button class="btn" data-a="scroll">See what to expect ↓</button></div></section><div class="wrap public-home" id="how">${info}<div class="card" style="margin-top:20px;text-align:center"><h2>Ready to start?</h2><button class="btn p" data-a="go" data-v="register">Create your account</button></div></div>`,
+            `<section class="hero"><video id="hv" class="hv" muted autoplay loop playsinline aria-hidden="true"></video><div class="hov"></div><div class="chips"><span>Free</span><span>Online</span><span>60 minutes</span><span>Beginner-friendly</span></div><h1>Stop Just Exploring AI. Start Building It.</h1><p>Turn your curiosity about AI into hands-on experience. Join a free, beginner-friendly workshop to explore AI development, build practical skills, and take your first step toward creating a project of your own—all in just 60 minutes.</p><!-- <div class="pg" role="progressbar" aria-valuenow="${n}" aria-valuemax="${t}"><i style="width:${Math.min(100, (n / t) * 100)}%"></i></div><p><span class="kpi"><b style="display:inline;font-size:inherit">${n}</b></span> of ${t} registrations · ${((n / t) * 100).toFixed(1)}% <span class="tag">DEMO DATA</span></p> --><div class="acts"><button class="btn p" data-a="go" data-v="register">Start building</button><button class="btn" data-a="scroll">See what to expect ↓</button></div></section><div class="wrap public-home" id="how">${info}<div class="start-card card"><h2>Ready to start?</h2><button class="btn p" data-a="go" data-v="register">Create your account</button></div></div>`,
           );
         },
         details() {
