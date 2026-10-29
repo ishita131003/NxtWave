@@ -1,0 +1,2517 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>NxtWave Growth Hub (Prototype)</title>
+    <style>
+      :root {
+        --bg: #f4f6fb;
+        --card: #fff;
+        --tx: #0f172a;
+        --mu: #64748b;
+        --pr: #4338ca;
+        --nv: #1e1b4b;
+        --bd: #e2e8f0;
+        --ok: #15803d;
+        --er: #b91c1c;
+        --wn: #fef3c7;
+        --wt: #78350f;
+        color-scheme: light;
+        box-sizing: border-box;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg: #0b0f1e;
+          --card: #151a2e;
+          --tx: #e8ecf8;
+          --mu: #94a3b8;
+          --pr: #818cf8;
+          --nv: #0b0f1e;
+          --bd: #28304d;
+          --ok: #4ade80;
+          --er: #f87171;
+          --wn: #3b2f0b;
+          --wt: #fde68a;
+          color-scheme: dark;
+        }
+      }
+      :root[data-theme="dark"] {
+        --bg: #0b0f1e;
+        --card: #151a2e;
+        --tx: #e8ecf8;
+        --mu: #94a3b8;
+        --pr: #818cf8;
+        --nv: #0b0f1e;
+        --bd: #28304d;
+        --ok: #4ade80;
+        --er: #f87171;
+        --wn: #3b2f0b;
+        --wt: #fde68a;
+        color-scheme: dark;
+      }
+      html {
+        scroll-padding-top: env(safe-area-inset-top, 0px);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--tx);
+        font:
+          15px/1.5 system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+      }
+      a {
+        color: var(--pr);
+      }
+      .mu {
+        color: var(--mu);
+      }
+      h1,
+      h2,
+      h3 {
+        margin: 0.2em 0 0.4em;
+        line-height: 1.2;
+      }
+      .top {
+        background: var(--nv);
+        color: #fff;
+        padding: 10px 16px;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .top b {
+        font-size: 17px;
+      }
+      .top .sp {
+        flex: 1;
+      }
+      .top button {
+        color: #fff;
+      }
+      .demo {
+        background: var(--wn);
+        color: var(--wt);
+        padding: 6px 16px;
+        font-size: 13px;
+        text-align: center;
+        font-weight: 600;
+      }
+      button,
+      .btn {
+        font: inherit;
+        cursor: pointer;
+        border: 1px solid var(--bd);
+        background: var(--card);
+        color: var(--tx);
+        padding: 8px 14px;
+        border-radius: 8px;
+        text-decoration: none;
+        display: inline-block;
+      }
+      button:focus-visible,
+      input:focus-visible,
+      select:focus-visible,
+      textarea:focus-visible {
+        outline: 3px solid var(--pr);
+        outline-offset: 1px;
+      }
+      .p {
+        background: var(--pr);
+        color: #fff;
+        border-color: var(--pr);
+      }
+      .top button {
+        background: transparent;
+        border-color: #ffffff55;
+      }
+      button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      .hero {
+        background: linear-gradient(135deg, #1e1b4b, #4338ca);
+        color: #fff;
+        padding: 48px 20px;
+        text-align: center;
+      }
+      .hero h1 {
+        font-size: clamp(26px, 5vw, 42px);
+      }
+      .hero p {
+        max-width: 640px;
+        margin: 8px auto;
+        opacity: 0.92;
+      }
+      .wrap {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 20px 16px;
+      }
+      .grid {
+        display: grid;
+        gap: 14px;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--bd);
+        border-radius: 12px;
+        padding: 16px;
+      }
+      .kpi b {
+        font-size: 26px;
+        display: block;
+      }
+      .kpi span {
+        color: var(--mu);
+        font-size: 13px;
+      }
+      .lay {
+        display: flex;
+        min-height: calc(100vh - 80px);
+      }
+      .side {
+        width: 210px;
+        background: var(--card);
+        border-right: 1px solid var(--bd);
+        padding: 12px;
+        flex-shrink: 0;
+      }
+      .side button {
+        display: block;
+        width: 100%;
+        text-align: left;
+        border: 0;
+        background: transparent;
+        margin-bottom: 2px;
+      }
+      .side button.on {
+        background: var(--pr);
+        color: #fff;
+      }
+      .main {
+        flex: 1;
+        padding: 18px;
+        min-width: 0;
+      }
+      @media (max-width: 720px) {
+        .lay {
+          flex-direction: column;
+        }
+        .side {
+          width: 100%;
+          display: flex;
+          overflow-x: auto;
+          gap: 4px;
+          border-right: 0;
+          border-bottom: 1px solid var(--bd);
+        }
+        .side button {
+          white-space: nowrap;
+          width: auto;
+        }
+      }
+      label {
+        display: block;
+        font-weight: 600;
+        font-size: 13px;
+        margin: 10px 0 3px;
+      }
+      input,
+      select,
+      textarea {
+        width: 100%;
+        font: inherit;
+        padding: 8px 10px;
+        border: 1px solid var(--bd);
+        border-radius: 8px;
+        background: var(--card);
+        color: var(--tx);
+      }
+      input[type="checkbox"] {
+        width: auto;
+      }
+      .row {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      }
+      .msg {
+        padding: 10px 14px;
+        border-radius: 8px;
+        margin-bottom: 12px;
+        font-weight: 600;
+      }
+      .msg.ok {
+        background: #dcfce7;
+        color: #14532d;
+      }
+      .msg.er {
+        background: #fee2e2;
+        color: #7f1d1d;
+      }
+      .tw {
+        overflow-x: auto;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13.5px;
+      }
+      th,
+      td {
+        padding: 7px 8px;
+        border-bottom: 1px solid var(--bd);
+        text-align: left;
+        white-space: nowrap;
+      }
+      .bar {
+        display: grid;
+        grid-template-columns: 150px 1fr 34px;
+        gap: 8px;
+        align-items: center;
+        margin: 5px 0;
+        font-size: 13px;
+      }
+      .bt {
+        background: var(--bd);
+        border-radius: 6px;
+        height: 14px;
+      }
+      .bt i {
+        display: block;
+        height: 14px;
+        border-radius: 6px;
+        background: var(--pr);
+      }
+      .tag {
+        font-size: 11px;
+        background: var(--wn);
+        color: var(--wt);
+        padding: 2px 7px;
+        border-radius: 99px;
+        font-weight: 700;
+      }
+      .pg {
+        height: 12px;
+        background: #ffffff33;
+        border-radius: 99px;
+        max-width: 420px;
+        margin: 12px auto;
+      }
+      .pg i {
+        display: block;
+        height: 12px;
+        border-radius: 99px;
+        background: #a5b4fc;
+      }
+      details {
+        border-bottom: 1px solid var(--bd);
+        padding: 8px 0;
+      }
+      summary {
+        cursor: pointer;
+        font-weight: 600;
+      }
+      :root:root {
+        --bg: #060a1c;
+        --card: #0e1430;
+        --tx: #e9edff;
+        --mu: #93a0cf;
+        --pr: #7c6cff;
+        --nv: #050818;
+        --bd: #222c58;
+        --ok: #a3e635;
+        --er: #fb7185;
+        --wn: #2a2108;
+        --wt: #fcd34d;
+        --cy: #22d3ee;
+        color-scheme: dark;
+      }
+      body {
+        background:
+          radial-gradient(900px 500px at 85% -10%, #2a1f7a66, transparent),
+          radial-gradient(700px 400px at -5% 10%, #0e749033, transparent),
+          var(--bg);
+        background-attachment: fixed;
+      }
+      .top {
+        background: rgba(5, 8, 24, 0.88);
+        backdrop-filter: blur(8px);
+        position: sticky;
+        top: env(safe-area-inset-top, 0px);
+        z-index: 20;
+        border-bottom: 1px solid var(--bd);
+      }
+      .top > b::before {
+        content: "";
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        margin-right: 8px;
+        border-radius: 6px;
+        background: linear-gradient(135deg, var(--cy), var(--pr));
+        vertical-align: -3px;
+        box-shadow: 0 0 14px #7c6cff99;
+      }
+      .card {
+        box-shadow: 0 8px 30px #0006;
+        transition:
+          transform 0.2s,
+          border-color 0.2s;
+      }
+      .card:hover {
+        transform: translateY(-2px);
+        border-color: #4b5aa8;
+      }
+      button,
+      .btn {
+        transition:
+          transform 0.15s,
+          filter 0.15s,
+          background 0.15s;
+      }
+      button:active {
+        transform: scale(0.97);
+      }
+      button:hover:not(:disabled),
+      .btn:hover {
+        filter: brightness(1.2);
+      }
+      .p {
+        background: linear-gradient(135deg, #6d5dfc, #4f46e5);
+        box-shadow: 0 6px 20px #4f46e566;
+      }
+      .side button:hover {
+        background: #ffffff12;
+      }
+      .hero {
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(160deg, #0b1038, #1b1560);
+        padding: 72px 20px;
+      }
+      .hero::before {
+        content: "";
+        position: absolute;
+        width: 520px;
+        height: 520px;
+        left: 50%;
+        top: -260px;
+        margin-left: -260px;
+        background: radial-gradient(circle, #22d3ee55, transparent 65%);
+        animation: drift 12s ease-in-out infinite alternate;
+      }
+      .hero > * {
+        position: relative;
+      }
+      .hero h1 {
+        background: linear-gradient(90deg, #fff, #a5f3fc 60%, #c4b5fd);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .pg i {
+        background: linear-gradient(90deg, var(--cy), #a78bfa);
+        animation: grow 1.2s ease-out;
+      }
+      .bt i {
+        background: linear-gradient(90deg, var(--pr), var(--cy));
+        animation: grow 0.9s ease-out;
+      }
+      .bar:hover .bt {
+        outline: 1px solid var(--cy);
+      }
+      .kpi b {
+        font-variant-numeric: tabular-nums;
+      }
+      @keyframes grow {
+        from {
+          width: 0;
+        }
+      }
+      @keyframes rise {
+        from {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+      }
+      @keyframes drift {
+        to {
+          transform: translateX(120px) scale(1.15);
+        }
+      }
+      .main > *,
+      .wrap > * {
+        animation: rise 0.5s ease-out both;
+      }
+      .main > *:nth-child(3) {
+        animation-delay: 0.06s;
+      }
+      .main > *:nth-child(4) {
+        animation-delay: 0.12s;
+      }
+      .main > *:nth-child(5) {
+        animation-delay: 0.18s;
+      }
+      .main > *:nth-child(n + 6) {
+        animation-delay: 0.24s;
+      }
+      .msg {
+        position: fixed;
+        right: 16px;
+        bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+        z-index: 50;
+        max-width: min(380px, calc(100vw - 32px));
+        box-shadow: 0 10px 40px #000a;
+        animation: rise 0.3s;
+      }
+      .msg.ok {
+        background: #1a2e0a;
+        color: #d9f99d;
+        border: 1px solid #3f6212;
+      }
+      .msg.er {
+        background: #3b0d18;
+        color: #fecdd3;
+        border: 1px solid #9f1239;
+      }
+      footer.wrap {
+        margin-top: 30px;
+      }
+      .top {
+        padding: 10px max(16px, calc((100vw - 1100px) / 2));
+        gap: 10px 14px;
+      }
+      .top > b {
+        white-space: nowrap;
+      }
+      .tn {
+        display: flex;
+        gap: 4px;
+        align-items: center;
+      }
+      .tn button {
+        border: 0;
+        background: transparent;
+      }
+      .tn button:hover {
+        background: #ffffff14;
+      }
+      .tn button.on {
+        background: #ffffff22;
+      }
+      .tn .p {
+        border: 0;
+        margin-left: 4px;
+      }
+      .hero {
+        min-height: calc(100vh - 92px);
+        min-height: calc(100svh - 92px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 56px 20px;
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+        margin-bottom: 12px;
+      }
+      .chips span {
+        border: 1px solid #ffffff33;
+        background: #ffffff12;
+        padding: 4px 12px;
+        border-radius: 99px;
+        font-size: 13px;
+      }
+      .hero h1 {
+        font-size: clamp(34px, 7vw, 68px);
+        max-width: 880px;
+        letter-spacing: -0.02em;
+      }
+      .hero p {
+        font-size: clamp(16px, 2.2vw, 20px);
+      }
+      .hero .pg {
+        width: min(420px, 80vw);
+        height: 14px;
+      }
+      .hero .pg i {
+        height: 14px;
+      }
+      .hero .acts {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 14px;
+      }
+      .hero .btn {
+        padding: 12px 22px;
+        font-size: 16px;
+      }
+      @media (max-width: 720px) {
+        .top .tag {
+          display: none;
+        }
+        .top .sp {
+          display: none;
+        }
+        .tn {
+          order: 3;
+          width: 100%;
+          overflow-x: auto;
+        }
+        .top > b {
+          flex: 1;
+        }
+      }
+      .hero > .hv,
+      .hero > .hov {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .hv {
+        object-fit: cover;
+      }
+      .hov {
+        background: linear-gradient(
+          180deg,
+          #060a1c99,
+          #060a1c33 45%,
+          #060a1cc4
+        );
+      }
+      .lay {
+        position: relative;
+        overflow: hidden;
+      }
+      .orbs {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+      .orbs i {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(70px);
+        opacity: 0.28;
+        animation: drift 14s ease-in-out infinite alternate;
+      }
+      .side,
+      .main {
+        position: relative;
+        z-index: 1;
+      }
+      .side {
+        width: 240px;
+        padding: 16px 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        background: linear-gradient(180deg, #111846ee, #080c26ee);
+        backdrop-filter: blur(10px);
+      }
+      .side .me {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        padding: 10px;
+        border-radius: 12px;
+        background: #ffffff0d;
+        margin-bottom: 8px;
+      }
+      .side .nl {
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        color: var(--mu);
+        margin: 8px 10px 4px;
+      }
+      .side button {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        border-radius: 10px;
+        padding: 9px 10px;
+        animation: slide 0.45s ease-out both;
+      }
+      .side button .gi {
+        width: 28px;
+        height: 28px;
+        border-radius: 8px;
+        display: grid;
+        place-items: center;
+        background: #ffffff12;
+        transition: transform 0.2s;
+      }
+      .side button:hover:not(.on) {
+        transform: translateX(5px);
+        background: #ffffff12;
+      }
+      .side button:hover .gi {
+        transform: rotate(-8deg) scale(1.1);
+      }
+      .side button.on {
+        background: linear-gradient(90deg, #6d5dfc, #4f46e5bb);
+        box-shadow: 0 6px 22px #4f46e566;
+      }
+      .lay.adm .side button.on {
+        background: linear-gradient(90deg, #0891b2, #4f46e5);
+      }
+      .side .pulse {
+        margin-top: auto;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        padding: 10px;
+      }
+      .av {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 12px;
+        color: #fff;
+        flex-shrink: 0;
+      }
+      @keyframes slide {
+        from {
+          opacity: 0;
+          transform: translateX(-14px);
+        }
+      }
+      @keyframes draw {
+        from {
+          stroke-dashoffset: 1;
+        }
+      }
+      @keyframes fade {
+        from {
+          opacity: 0;
+        }
+      }
+      @keyframes sw {
+        from {
+          stroke-dasharray: 0 400;
+        }
+      }
+      .dr {
+        stroke-dasharray: 1;
+        animation: draw 1.5s ease-out;
+      }
+      .af {
+        animation: fade 1.6s;
+      }
+      .sg {
+        animation: sw 1.2s ease-out both;
+      }
+      .pt {
+        transition: r 0.2s;
+      }
+      .pt:hover {
+        r: 8;
+      }
+      .gk {
+        position: relative;
+        overflow: hidden;
+        color: #fff;
+        border: 0;
+      }
+      .gk b {
+        font-size: 32px;
+      }
+      .gk span,
+      .gk small {
+        color: #ffffffe0 !important;
+        display: block;
+      }
+      .gk .ic {
+        position: absolute;
+        right: 14px;
+        top: 10px;
+        font-size: 22px;
+        width: auto;
+      }
+      .gk.violet {
+        background: linear-gradient(135deg, #6d28d9, #7c6cff);
+      }
+      .gk.coral {
+        background: linear-gradient(135deg, #f97316, #fb7185);
+      }
+      .gk.pink {
+        background: linear-gradient(135deg, #db2777, #f472b6);
+      }
+      .gk.cyan {
+        background: linear-gradient(135deg, #0891b2, #22d3ee);
+      }
+      .dn {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .lg {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        font-size: 13px;
+      }
+      .lg i {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin-right: 8px;
+      }
+      .rgs {
+        display: flex;
+        gap: 10px;
+        justify-content: space-around;
+        flex-wrap: wrap;
+      }
+      .rg {
+        text-align: center;
+        font-size: 13px;
+      }
+      .rg span {
+        display: block;
+        color: var(--mu);
+      }
+      .lr {
+        display: grid;
+        grid-template-columns: 20px 34px 1fr 90px 24px;
+        gap: 8px;
+        align-items: center;
+        padding: 7px 0;
+        border-bottom: 1px solid var(--bd);
+      }
+      .rk {
+        color: var(--mu);
+      }
+      .nm {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .sn {
+        gap: 6px 10px;
+      }
+      .sn .tn.sl {
+        margin-left: 28px;
+      }
+      .tn.sl button {
+        border-radius: 0;
+        border-bottom: 2px solid transparent;
+        padding: 8px 12px;
+      }
+      .tn.sl button.on {
+        background: transparent;
+        border-bottom-color: var(--cy);
+      }
+      .um {
+        position: relative;
+      }
+      .ub {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        border-radius: 99px;
+        padding: 3px 12px 3px 3px;
+        border: 1px solid #ffffff33;
+        background: #ffffff0d;
+      }
+      .ub .av {
+        width: 30px;
+        height: 30px;
+      }
+      .dd {
+        position: absolute;
+        right: 0;
+        top: calc(100% + 8px);
+        min-width: 190px;
+        background: var(--card);
+        border: 1px solid var(--bd);
+        border-radius: 12px;
+        padding: 6px;
+        box-shadow: 0 14px 40px #000a;
+        animation: rise 0.2s;
+        z-index: 40;
+      }
+      .dd button {
+        display: block;
+        width: 100%;
+        text-align: left;
+        border: 0;
+        background: transparent;
+        color: var(--tx);
+      }
+      .dd button:hover {
+        background: #ffffff14;
+      }
+      .vc {
+        padding: 18px;
+      }
+      .vf {
+        aspect-ratio: 16/9;
+        border-radius: 16px;
+        overflow: hidden;
+        position: relative;
+        background:
+          radial-gradient(600px 300px at 70% 20%, #4f46e5aa, transparent),
+          linear-gradient(135deg, #0b1038, #1b1560);
+        border: 1px solid var(--bd);
+        display: grid;
+        place-items: center;
+      }
+      .vu {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        text-align: center;
+        padding: 16px;
+        max-width: 460px;
+      }
+      .vs {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #060a1ccc;
+        text-align: center;
+        padding: 16px;
+      }
+      .pb {
+        width: 84px;
+        height: 84px;
+        border-radius: 50%;
+        font-size: 30px;
+        padding: 0;
+        background: linear-gradient(135deg, #6d5dfc, #22d3ee);
+        color: #fff;
+        border: 0;
+        box-shadow:
+          0 0 0 10px #ffffff14,
+          0 10px 40px #4f46e5aa;
+        animation: ping 2.4s infinite;
+      }
+      .pb:disabled {
+        filter: grayscale(0.7);
+        animation: none;
+        opacity: 0.6;
+      }
+      @keyframes ping {
+        50% {
+          box-shadow:
+            0 0 0 18px #ffffff08,
+            0 10px 40px #4f46e5aa;
+        }
+      }
+      .path {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        margin-top: 14px;
+      }
+      .path .card b {
+        display: inline-grid;
+        place-items: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: var(--pr);
+        color: #fff;
+        margin-right: 8px;
+      }
+      .big {
+        padding: 14px 28px;
+        font-size: 17px;
+      }
+      .stp {
+        display: flex;
+        gap: 14px;
+        padding: 12px 0;
+        border-bottom: 1px solid var(--bd);
+      }
+      .stp > button {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        padding: 0;
+      }
+      .stp.nx > button {
+        background: var(--pr);
+        color: #fff;
+      }
+      .stp.fin > button {
+        background: var(--ok);
+        color: #0b1a02;
+        border: 0;
+      }
+      .stp p {
+        margin: 2px 0;
+      }
+      @media (max-width: 720px) {
+        .sn .sl {
+          display: none;
+        }
+        .sn .ub span {
+          display: none;
+        }
+        .sn .ub {
+          padding: 3px;
+        }
+      }
+      @media (max-width: 720px) {
+        .side {
+          width: 100%;
+          flex-direction: row;
+          overflow-x: auto;
+          padding: 8px;
+        }
+        .side .me,
+        .side .nl,
+        .side .pulse {
+          display: none;
+        }
+        .side button {
+          white-space: nowrap;
+        }
+        .lr {
+          grid-template-columns: 20px 34px 1fr 24px;
+        }
+        .lr .bt {
+          display: none;
+        }
+      }
+      footer button {
+        margin: 2px;
+      }
+      li {
+        margin: 4px 0;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      const $ = (s) => document.querySelector(s);
+      const esc = (s) =>
+        String(s ?? "").replace(
+          /[&<>"']/g,
+          (c) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#39;",
+            })[c],
+        );
+      const sha = async (s) =>
+        [
+          ...new Uint8Array(
+            await crypto.subtle.digest(
+              "SHA-256",
+              new TextEncoder().encode("nwgh-demo:" + s),
+            ),
+          ),
+        ]
+          .map((b) => b.toString(16).padStart(2, "0"))
+          .join("");
+      const COMMUNITY_URL = ""; // set a real WhatsApp invite URL here; empty = "coming soon"
+      const KEY = "nwgh_demo_v1",
+        DAY = 864e5;
+      const SRC = [
+        "College ambassador/club",
+        "WhatsApp",
+        "Friend referral",
+        "Instagram",
+        "LinkedIn",
+        "Facebook",
+        "Other",
+      ];
+      const BR = ["CSE", "IT", "ECE", "EEE", "Mechanical", "Civil", "AI & DS"],
+        YR = ["Final year", "Third year", "Other"];
+      const COL = [
+        "Demo Institute of Technology",
+        "Sample College of Engineering",
+        "Example Tech University",
+        "Fictional Polytechnic Institute",
+        "Mock Engineering College",
+        "Prototype School of Tech",
+      ];
+      const uid = () => crypto.randomUUID(),
+        mk = () => "NW" + Math.random().toString(36).slice(2, 8).toUpperCase();
+      let DB,
+        sess = null,
+        S = {
+          view: "home",
+          msg: null,
+          draft: null,
+          page: 0,
+          q: "",
+          src: "",
+          col: "",
+          st: "",
+        };
+      function ld() {
+        try {
+          return JSON.parse(localStorage.getItem(KEY));
+        } catch (e) {
+          return null;
+        }
+      }
+      function sv() {
+        try {
+          localStorage.setItem(KEY, JSON.stringify(DB));
+        } catch (e) {}
+      }
+      async function seed() {
+        const F = [
+            "Aarav",
+            "Diya",
+            "Rohan",
+            "Sneha",
+            "Karan",
+            "Priya",
+            "Vikram",
+            "Ananya",
+          ],
+          L = [
+            "Mehta",
+            "Nair",
+            "Iyer",
+            "Patil",
+            "Reddy",
+            "Singh",
+            "Joshi",
+            "Khan",
+          ];
+        const sidx = [
+            0, 1, 1, 2, 0, 3, 1, 0, 4, 2, 1, 0, 5, 1, 2, 0, 3, 1, 6, 0, 1, 2, 0,
+            1,
+          ],
+          x = await sha("Seed-not-loginable"),
+          now = Date.now(),
+          users = [];
+        users.push({
+          id: uid(),
+          name: "Demo Student",
+          email: "student.demo@example.com",
+          pwh: await sha("StudentDemo@123"),
+          role: "student",
+          college: COL[0],
+          branch: "CSE",
+          year: "Final year",
+          city: "Nagpur",
+          source: "WhatsApp",
+          code: "NWDEMO01",
+          refBy: null,
+          created: now - 6 * DAY,
+          status: "valid",
+        });
+        users.push({
+          id: uid(),
+          name: "Demo Admin",
+          email: "admin.demo@example.com",
+          pwh: await sha("AdminDemo@123"),
+          role: "admin",
+          created: now - 7 * DAY,
+        });
+        const codes = [];
+        for (let i = 0; i < 24; i++) {
+          const c =
+            "NW" + (100000 + i * 7919).toString(36).toUpperCase().slice(0, 6);
+          codes.push(c);
+          const by =
+            i % 4 == 3 ? "NWDEMO01" : i % 5 == 1 && i > 1 ? codes[0] : null;
+          users.push({
+            id: uid(),
+            name: F[i % 8] + " " + L[(i * 3 + 1) % 8],
+            email: `demo.student${i}@example.com`,
+            pwh: x,
+            role: "student",
+            college: COL[i % 6],
+            branch: BR[(i * 2) % 7],
+            year: i % 9 == 8 ? "Third year" : "Final year",
+            city: "Demo City",
+            source: by ? "Friend referral" : SRC[sidx[i]],
+            code: c,
+            refBy: by,
+            created: now - (i % 7) * DAY - i * 36e5,
+            status: "valid",
+          });
+        }
+        return {
+          users,
+          sugg: [
+            {
+              id: uid(),
+              uid: users[0].id,
+              cat: "Workshop topic",
+              title: "Show an end-to-end RAG demo",
+              desc: "Demo suggestion: a small project beginners can extend.",
+              contact: "",
+              status: "new",
+              resp: "",
+              created: now - DAY,
+            },
+            {
+              id: uid(),
+              uid: users[2].id,
+              cat: "Campaign idea",
+              title: "Club-wise leaderboard",
+              desc: "Demo suggestion: let coding clubs compete on sign-ups.",
+              contact: "",
+              status: "planned",
+              resp: "Thanks, we are considering this.",
+              created: now - 2 * DAY,
+            },
+          ],
+          camp: {
+            name: "Build Your First AI Project in 60 Minutes",
+            target: 500,
+            start: new Date(now - 6 * DAY).toISOString().slice(0, 10),
+            end: new Date(now + DAY).toISOString().slice(0, 10),
+            status: "active",
+            notes: "",
+            planned: {
+              "Paid social test": 800,
+              "Creative testing": 400,
+              "Winning-creative allocation": 600,
+              Contingency: 200,
+            },
+            actual: {
+              "Paid social test": 0,
+              "Creative testing": 0,
+              "Winning-creative allocation": 0,
+              Contingency: 0,
+            },
+          },
+          audit: [],
+          subs: [],
+        };
+      }
+      const U = () => DB.users.find((u) => u.id === sess?.id);
+      const stu = () =>
+        DB.users.filter((u) => u.role === "student" && u.status !== "invalid");
+      const grp = (a, f) =>
+        Object.entries(
+          a.reduce((o, x) => ((o[f(x)] = (o[f(x)] || 0) + 1), o), {}),
+        ).sort((a, b) => b[1] - a[1]);
+      const dt = (t) =>
+        new Date(t).toLocaleString("en-IN", {
+          day: "numeric",
+          month: "short",
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+      const dl = (t) =>
+        new Date(t).toLocaleDateString("en-IN", {
+          day: "numeric",
+          month: "short",
+        });
+      const audit = (a) => {
+        DB.audit.unshift({ t: Date.now(), by: U()?.email, a });
+        DB.audit = DB.audit.slice(0, 50);
+      };
+      function flash(t, m) {
+        S.msg = { t, m };
+        render();
+        clearTimeout(window._ft);
+        window._ft = setTimeout(() => {
+          S.msg = null;
+          document.querySelectorAll(".msg").forEach((e) => e.remove());
+        }, 5000);
+      }
+      function go(v) {
+        S.view = v;
+        S.page = 0;
+        render();
+        scrollTo(0, 0);
+      }
+      async function copy(t, ok = "Copied to clipboard.") {
+        try {
+          await navigator.clipboard.writeText(t);
+          flash("ok", ok);
+        } catch (e) {
+          flash(
+            "er",
+            "Clipboard blocked by the browser. Select and copy manually.",
+          );
+        }
+      }
+      const base = () => location.origin + location.pathname,
+        link = (u) => base() + "?ref=" + u.code;
+      const msgFor = (u) =>
+        `I'm joining the free online workshop "Build Your First AI Project in 60 Minutes" (beginner-friendly, practical). Register here: ${link(u)}`;
+      /* charts */
+      const bars = (r) =>
+        r
+          .map(
+            (x) =>
+              `<div class="bar" title="${esc(x[0])}: ${x[1]}"><span>${esc(x[0])}</span><div class="bt"><i style="width:${(x[1] / Math.max(1, ...r.map((y) => y[1]))) * 100}%"></i></div><b>${x[1]}</b></div>`,
+          )
+          .join("") || '<p class="mu">No data for this filter.</p>';
+      function line(d) {
+        const w = 520,
+          h = 170,
+          p = 26,
+          m = Math.max(1, ...d.map((x) => x[1])),
+          P = d.map((x, i) => [
+            p + (i * (w - 2 * p)) / (d.length - 1),
+            h - p - (x[1] / m) * (h - 2 * p),
+          ]);
+        return `<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="Registrations per day over the last 7 days: ${d.map((x) => x[0] + " " + x[1]).join(", ")}" style="width:100%"><polyline fill="none" stroke="var(--pr)" stroke-width="2.5" points="${P.map((q) => q.join(",")).join(" ")}"/>${P.map((q, i) => `<circle cx="${q[0]}" cy="${q[1]}" r="4" fill="var(--pr)"><title>${d[0][0] && d[P.indexOf(q)][0]}: ${d[P.indexOf(q)][1]} sign-ups</title></circle><text x="${q[0]}" y="${h - 8}" font-size="10" text-anchor="middle" fill="var(--mu)">${d[i][0]}</text><text x="${q[0]}" y="${q[1] - 8}" font-size="11" text-anchor="middle" fill="var(--tx)">${d[i][1]}</text>`).join("")}</svg>`;
+      }
+      const trend = (a) =>
+        [...Array(7)].map((_, i) => {
+          const d = new Date(Date.now() - (6 - i) * DAY).toDateString();
+          return [
+            dl(Date.now() - (6 - i) * DAY),
+            a.filter((u) => new Date(u.created).toDateString() === d).length,
+          ];
+        });
+      /* layout */
+      const SN = [
+        ["student/dashboard", "Dashboard"],
+        ["details", "Build &amp; Learn"],
+        ["student/referrals", "Referral"],
+        ["student/community", "Community"],
+        ["student/suggestions", "Suggestions"],
+        ["student/profile", "Profile"],
+      ];
+      const AN = [
+        ["admin/dashboard", "Dashboard"],
+        ["admin/registrations", "Registrations"],
+        ["admin/referrals", "Referrals"],
+        ["admin/suggestions", "Suggestions"],
+        ["admin/growth", "Growth Plan"],
+        ["admin/campaigns", "Campaign Settings"],
+        ["admin/profile", "Profile"],
+      ];
+      function shell(nav, body, who) {
+        return `<div class="top"><b>NxtWave Growth Hub</b><span class="tag">PROTOTYPE · NOT OFFICIAL</span><span class="sp"></span><span>${esc(who)}</span><button data-a="logout">Log out</button></div><div class="demo">DEMO DATA — NOT REAL REGISTRATIONS</div><div class="lay"><nav class="side" aria-label="Portal navigation">${nav.map((n) => `<button data-a="go" data-v="${n[0]}" class="${S.view === n[0] ? "on" : ""}" ${S.view === n[0] ? 'aria-current="page"' : ""}>${n[1]}</button>`).join("")}</nav><main class="main">${S.msg ? `<div class="msg ${S.msg.t}" role="status">${esc(S.msg.m)}</div>` : ""}${body}</main></div>`;
+      }
+      function pub(body) {
+        return `<header class="top"><b>NxtWave Growth Hub</b><!-- <span class="tag">PROTOTYPE · NOT OFFICIAL</span> --><span class="sp"></span><nav class="tn" aria-label="Main">${[
+          ["home", "Home"],
+          ["login", "Student login"],
+          ["admin/login", "Admin"],
+        ]
+          .map(
+            (n) =>
+              `<button data-a="go" data-v="${n[0]}" class="${S.view === n[0] ? "on" : ""}" ${S.view === n[0] ? 'aria-current="page"' : ""}>${n[1]}</button>`,
+          )
+          .join(
+            "",
+          )}<button class="p" data-a="go" data-v="register">Register free</button></nav></header>
+          
+          <!-- <div class="demo">DEMO DATA — NOT REAL REGISTRATIONS · Independent assessment simulation, not affiliated with NxtWave</div> -->
+          
+          ${S.msg ? `<div class="wrap"><div class="msg ${S.msg.t}" role="status">${esc(S.msg.m)}</div></div>` : ""}${body}`;
+      }
+      const sel = (n, o, v = "", ph = "Select") =>
+        `<select name="${n}" required><option value="">${ph}</option>${o.map((x) => `<option ${x === v ? "selected" : ""}>${esc(x)}</option>`).join("")}</select>`;
+      const faq = `<details><summary>Is it free?</summary><p>Yes, the workshop is planned as free, online and beginner-friendly.</p></details><details><summary>When is the workshop?</summary><p>The date and joining link are not confirmed yet. Registered students will be informed once they are.</p></details><details><summary>Is there a certificate or placement guarantee?</summary><p>Nothing is promised beyond what is confirmed. This page makes no placement or certificate claims.</p></details><details><summary>What is the "7 days"?</summary><p>That is the registration campaign period, separate from the (unconfirmed) workshop schedule.</p></details>`;
+      const info = `<div class="grid"><div class="card"><h3>Who should attend</h3><p>Final-year engineering students curious about AI, software placements, internships and practical projects.</p></div><div class="card"><h3>What to expect</h3><p>A free, online, 60-minute, learn-by-building session aimed at beginners.</p></div><div class="card"><h3>Why it is useful</h3><p>Explore AI development hands-on and get a starting point for a portfolio project.</p></div></div><h2 style="margin-top:24px">FAQ</h2>${faq}`;
+      /* views */
+      const V = {
+        home() {
+          const n = stu().length,
+            t = DB.camp.target;
+          return pub(
+            `<section class="hero"><video id="hv" class="hv" muted autoplay loop playsinline aria-hidden="true"></video><div class="hov"></div><div class="chips"><span>Free</span><span>Online</span><span>60 minutes</span><span>Beginner-friendly</span></div><h1>Build Your First AI Project in 60 Minutes</h1><p>A free, beginner-friendly, online and practical workshop. Learn by building, explore AI development and get a starting point for a portfolio project.</p><div class="pg" role="progressbar" aria-valuenow="${n}" aria-valuemax="${t}"><i style="width:${Math.min(100, (n / t) * 100)}%"></i></div><p><span class="kpi"><b style="display:inline;font-size:inherit">${n}</b></span> of ${t} registrations · ${((n / t) * 100).toFixed(1)}% <span class="tag">DEMO DATA</span></p><div class="acts"><button class="btn p" data-a="go" data-v="register">Register free</button><button class="btn" data-a="scroll">See what to expect ↓</button></div></section><div class="wrap" id="how">${info}<div class="card" style="margin-top:20px;text-align:center"><h2>Ready to start?</h2><button class="btn p" data-a="go" data-v="register">Create your account</button></div></div>`,
+          );
+        },
+        details() {
+          const b = `<h1>Campaign details</h1><div class="card"><p><b>Purpose:</b> get ${DB.camp.target} final-year engineering students registered for a free online 60-minute workshop. <b>Registration campaign:</b> ${DB.camp.start} to ${DB.camp.end}. <b>Workshop date:</b> not confirmed.</p></div>${info}`;
+          return sess?.role === "student"
+            ? shell(SN, b, U().name)
+            : pub(`<div class="wrap">${b}</div>`);
+        },
+        register() {
+          const d = S.draft || {},
+            ref =
+              d.ref || new URLSearchParams(location.search).get("ref") || "";
+          return pub(
+            `<div class="wrap" style="max-width:640px"><div class="card"><h1>Register</h1><form data-f="reg" novalidate><label for="n">Full name</label><input id="n" name="name" value="${esc(d.name)}" maxlength="80" required><label for="e">Email</label><input id="e" name="email" type="email" value="${esc(d.email)}" required><div class="row"><div><label for="p">Password</label><input id="p" name="password" type="password" autocomplete="new-password" required></div><div><label for="c">Confirm password</label><input id="c" name="confirm" type="password" autocomplete="new-password" required></div></div><label>College</label><input name="college" value="${esc(d.college)}" maxlength="120" required><div class="row"><div><label>Engineering branch</label>${sel("branch", BR, d.branch)}</div><div><label>Study year</label>${sel("year", YR, d.year)}</div></div><label>City / state (optional)</label><input name="city" value="${esc(d.city)}" maxlength="80"><label>How did you hear about this?</label>${sel("source", SRC, d.source)}<label>Referral code (optional)</label><input name="ref" value="${esc(ref)}" maxlength="12"><label style="font-weight:400;margin-top:14px"><input type="checkbox" name="consent" ${d.consent ? "checked" : ""}> I agree to my details being used for this workshop campaign (prototype, stored only in this browser).</label><p><button class="btn p" type="submit">Create account</button></p></form></div></div>`,
+          );
+        },
+        login() {
+          return pub(
+            `<div class="wrap" style="max-width:460px"><div class="card"><h1>Student login</h1>${lf("stu")}<p><button data-a="fill" data-r="student">Use demo credentials</button></p><p class="mu" style="font-size:12px">Demo credentials are for local simulation only. Clicking fills the form; you still press Log in.</p><p><button data-a="go" data-v="forgot">Forgot password?</button></p></div></div>`,
+          );
+        },
+        forgot() {
+          return pub(
+            `<div class="wrap" style="max-width:460px"><div class="card"><h1>Reset password</h1><form data-f="forgot"><label>Email</label><input name="email" type="email" required><p><button class="btn p">Send reset link</button></p></form><p class="mu" style="font-size:12px">Limitation: no email is sent in local-demo mode. With Supabase configured this calls the real reset flow.</p></div></div>`,
+          );
+        },
+        "admin/login"() {
+          return pub(
+            `<div class="wrap" style="max-width:460px"><div class="card"><h1>Admin login</h1>${lf("adm")}<p><button data-a="fill" data-r="admin">Use demo credentials</button></p><p class="mu" style="font-size:12px">Demo admin credentials: local simulation only. Never use in production.</p></div></div>`,
+          );
+        },
+        "student/dashboard"() {
+          const u = U(),
+            r = DB.users.filter((x) => x.refBy === u.code),
+            pc =
+              ["name", "college", "branch", "year", "city"].filter((k) => u[k])
+                .length * 20;
+          return shell(
+            SN,
+            `<h1>Welcome, ${esc(u.name.split(" ")[0])}</h1><div class="grid"><div class="card kpi"><b>Registered</b><span>Registered ${dt(u.created)}</span></div><div class="card kpi"><b>${pc}%</b><span>Profile completion</span></div><div class="card kpi"><b>${r.length}</b><span>Referrals (demo-attributed)</span></div><div class="card kpi"><b>${u.code}</b><span>Your referral code</span></div></div><div class="card" style="margin-top:14px"><h3>Your referral link</h3><code>${esc(link(u))}</code><p><button data-a="cp" data-t="${esc(link(u))}">Copy link</button> <a class="btn p" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(msgFor(u))}">Share invitation</a></p></div>`,
+            u.name,
+          );
+        },
+        "student/referrals"() {
+          const u = U(),
+            r = DB.users.filter((x) => x.refBy === u.code);
+          return shell(
+            SN,
+            `<h1>Referral portal</h1><div class="card"><p>Code <b>${u.code}</b>. Message (editable before you send):</p><textarea id="m" rows="3">${esc(msgFor(u))}</textarea><p><button data-a="cpm">Copy message</button> <button data-a="cp" data-t="${esc(link(u))}">Copy link</button> <button data-a="native">Share…</button> <a class="btn p" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(msgFor(u))}">WhatsApp</a></p></div><div class="card tw" style="margin-top:14px"><h3>Referred registrations (${r.length})</h3>${r.length ? `<table><tr><th>Student</th><th>Date</th><th>Source</th><th>Status</th></tr>${r.map((x) => `<tr><td>${esc(x.name.split(" ")[0] + " " + x.name.split(" ")[1][0])}.</td><td>${dt(x.created)}</td><td>${esc(x.source)}</td><td><span class="tag">Demo-attributed, unverified</span></td></tr>`).join("")}</table>` : '<p class="mu">No referrals yet. Share your link to get started.</p>'}</div><p class="mu">Self-referrals and duplicate emails are blocked at registration. Attribution is client-side in demo mode, so it is labelled unverified.</p>`,
+            u.name,
+          );
+        },
+        "student/community"() {
+          const u = U(),
+            t = encodeURIComponent(msgFor(u)),
+            l = encodeURIComponent(link(u));
+          return shell(
+            SN,
+            `<h1>Community and sharing</h1><div class="card"><h3>WhatsApp community</h3>${COMMUNITY_URL ? `<a class="btn p" target="_blank" rel="noopener" href="${esc(COMMUNITY_URL)}">Join community</a>` : "<button disabled>Community link coming soon</button>"}</div><div class="card" style="margin-top:14px"><h3>Share the campaign</h3><textarea id="m" rows="3">${esc(msgFor(u))}</textarea><p><a class="btn" target="_blank" rel="noopener" href="https://wa.me/?text=${t}">WhatsApp</a> <a class="btn" target="_blank" rel="noopener" href="https://www.linkedin.com/sharing/share-offsite/?url=${l}">LinkedIn</a> <a class="btn" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=${l}">Facebook</a> <button data-a="cpm">Copy Instagram caption</button> <button data-a="cp" data-t="${esc(link(u))}">Copy link</button> <button data-a="native">Share…</button></p><p class="mu" style="font-size:12px">Nothing is sent automatically. Instagram has no web share URL, so copy the caption. A downloadable campaign card is not built yet.</p></div>`,
+            u.name,
+          );
+        },
+        "student/suggestions"() {
+          const u = U(),
+            m = DB.sugg.filter((s) => s.uid === u.id);
+          return shell(
+            SN,
+            `<h1>Suggestions</h1><div class="card"><form data-f="sugg"><label>Category</label>${sel("cat", ["Campaign idea", "Workshop topic", "Student experience", "Technical issue", "Other"])}<label>Idea (max 100 chars)</label><input name="title" maxlength="100" required><label>Description (max 1000 chars)</label><textarea name="desc" rows="4" maxlength="1000" required></textarea><label>Contact preference (optional)</label><input name="contact" maxlength="100"><p><button class="btn p">Submit</button></p></form></div><div class="card tw" style="margin-top:14px"><h3>My submissions</h3>${m.length ? `<table><tr><th>Date</th><th>Idea</th><th>Status</th><th>Response</th></tr>${m.map((s) => `<tr><td>${dl(s.created)}</td><td>${esc(s.title)}</td><td>${s.status}</td><td style="white-space:normal">${esc(s.resp) || "—"}</td></tr>`).join("")}</table>` : '<p class="mu">Nothing submitted yet.</p>'}</div>`,
+            u.name,
+          );
+        },
+        "student/profile"() {
+          const u = U();
+          return shell(
+            SN,
+            `<h1>Profile</h1><div class="card"><form data-f="prof"><label>Name</label><input name="name" value="${esc(u.name)}" maxlength="80" required><label>Email (read-only)</label><input value="${esc(u.email)}" readonly><label>College</label><input name="college" value="${esc(u.college)}" maxlength="120"><div class="row"><div><label>Branch</label>${sel("branch", BR, u.branch)}</div><div><label>Year</label>${sel("year", YR, u.year)}</div></div><label>City</label><input name="city" value="${esc(u.city)}" maxlength="80"><p><button class="btn p">Save</button> <button type="button" data-a="go" data-v="forgot">Password reset</button> <button type="button" data-a="del">${u.delReq ? "Deletion requested" : "Request account deletion"}</button></p></form></div>`,
+            u.name,
+          );
+        },
+        "admin/dashboard"() {
+          let a = stu();
+          if (S.src) a = a.filter((u) => u.source === S.src);
+          if (S.col) a = a.filter((u) => u.college === S.col);
+          const all = stu().length,
+            t = DB.camp.target,
+            td = trend(a);
+          const refd = a.filter((u) => u.refBy);
+          return shell(
+            AN,
+            `<h1>Overview <span class="tag">DEMO DATA</span></h1><div class="row card"><div><label>Source</label><select data-a="fs"><option value="">All</option>${SRC.map((x) => `<option ${S.src === x ? "selected" : ""}>${esc(x)}</option>`).join("")}</select></div><div><label>College</label><select data-a="fc"><option value="">All</option>${COL.map((x) => `<option ${S.col === x ? "selected" : ""}>${esc(x)}</option>`).join("")}</select></div></div><div class="grid" style="margin-top:14px">${[
+              [all, "Total unique registrations"],
+              [t, "Target"],
+              [Math.max(0, t - all), "Remaining"],
+              [((all / t) * 100).toFixed(1) + "%", "Progress"],
+              [td[6][1], "Today's registrations (filtered)"],
+              [
+                new Set(refd.map((u) => u.refBy)).size,
+                "Referrers with sign-ups",
+              ],
+              [refd.length, "Referred registrations"],
+              [new Set(a.map((u) => u.source)).size, "Active channels"],
+            ]
+              .map(
+                (k) =>
+                  `<div class="card kpi"><b>${k[0]}</b><span>${k[1]}</span></div>`,
+              )
+              .join(
+                "",
+              )}</div><div class="grid" style="margin-top:14px"><div class="card"><h3>Daily sign-ups, last 7 days</h3>${line(td)}<p class="mu" style="font-size:12px">Daily goal = target ÷ 7 = ${Math.ceil(t / 7)}. Avg actual: ${(td.reduce((s, x) => s + x[1], 0) / 7).toFixed(1)}.</p></div><div class="card"><h3>By source</h3>${bars(grp(a, (u) => u.source))}</div></div><div class="card" style="margin-top:14px"><h3>By college</h3>${bars(grp(a, (u) => u.college))}</div>`,
+            U().name,
+          );
+        },
+        "admin/registrations"() {
+          let a = DB.users.filter((u) => u.role === "student");
+          const q = S.q.toLowerCase();
+          if (q)
+            a = a.filter((u) =>
+              (u.name + u.email + u.college).toLowerCase().includes(q),
+            );
+          if (S.src) a = a.filter((u) => u.source === S.src);
+          a.sort((x, y) => y.created - x.created);
+          const pg = a.slice(S.page * 10, S.page * 10 + 10);
+          return shell(
+            AN,
+            `<h1>Registrations (${a.length})</h1><div class="row card"><div><label>Search</label><input data-a="sq" value="${esc(S.q)}" placeholder="Name, email, college"></div><div><label>Source</label><select data-a="fs"><option value="">All</option>${SRC.map((x) => `<option ${S.src === x ? "selected" : ""}>${esc(x)}</option>`).join("")}</select></div></div><p><button data-a="csv">Export filtered CSV</button></p><div class="card tw"><table><tr><th>Name</th><th>Email</th><th>College</th><th>Branch</th><th>Year</th><th>Source</th><th>Ref code</th><th>Date</th><th>Status</th></tr>${pg.map((u) => `<tr><td>${esc(u.name)}</td><td>${esc(u.email)}</td><td>${esc(u.college)}</td><td>${esc(u.branch)}</td><td>${esc(u.year)}</td><td>${esc(u.source)}</td><td>${esc(u.refBy || "—")}</td><td>${dt(u.created)}</td><td><select data-a="ust" data-id="${u.id}" aria-label="Status for ${esc(u.name)}">${["valid", "flagged", "invalid"].map((s) => `<option ${u.status === s ? "selected" : ""}>${s}</option>`).join("")}</select></td></tr>`).join("") || '<tr><td colspan="9" class="mu">No matching registrations.</td></tr>'}</table></div><p><button data-a="pp" ${S.page ? "" : "disabled"}>Previous</button> <button data-a="pn" ${(S.page + 1) * 10 < a.length ? "" : "disabled"}>Next</button> <span class="mu">Page ${S.page + 1}</span></p><p class="mu" style="font-size:12px">Passwords are stored only as salted-style SHA-256 hashes in demo mode and never shown. Invalid accounts are excluded from counts.</p>`,
+            U().name,
+          );
+        },
+        "admin/referrals"() {
+          const rows = stu()
+            .map((u) => {
+              const r = DB.users
+                .filter((x) => x.refBy === u.code)
+                .map((x) => x.created)
+                .sort();
+              let sus = false;
+              for (let i = 2; i < r.length; i++)
+                if (r[i] - r[i - 2] < 6e5) sus = true;
+              return { u, n: r.length, sus };
+            })
+            .filter((x) => x.n)
+            .sort((a, b) => b.n - a.n);
+          return shell(
+            AN,
+            `<h1>Referral analytics <span class="tag">DEMO DATA</span></h1><div class="card tw"><table><tr><th>#</th><th>Code</th><th>Student</th><th>Unique registrations</th><th>Clicks</th><th>Conversion</th><th>Attribution</th></tr>${rows.map((x, i) => `<tr><td>${i + 1}</td><td>${x.u.code}</td><td>${esc(x.u.name)}</td><td>${x.n}</td><td>not tracked</td><td>—</td><td>${x.sus ? '<span class="tag">Suspicious: 3 sign-ups in 10 min</span>' : '<span class="tag">Demo, unverified</span>'}</td></tr>`).join("") || '<tr><td colspan="7" class="mu">No referral activity.</td></tr>'}</table></div><p class="mu">Conversion rate = unique registrations ÷ link visits × 100, shown as "—" when the denominator is zero. Link visits are not tracked in this prototype, so no click data is shown.</p>`,
+            U().name,
+          );
+        },
+        "admin/suggestions"() {
+          let a = DB.sugg.filter(
+            (s) =>
+              (!S.st || s.status === S.st) &&
+              (!S.q ||
+                (s.title + s.desc).toLowerCase().includes(S.q.toLowerCase())),
+          );
+          return shell(
+            AN,
+            `<h1>Suggestions inbox</h1><div class="row card"><div><label>Search</label><input data-a="sq" value="${esc(S.q)}"></div><div><label>Status</label><select data-a="fst"><option value="">All</option>${["new", "reviewing", "planned", "completed", "declined"].map((x) => `<option ${S.st === x ? "selected" : ""}>${x}</option>`).join("")}</select></div></div>${a.map((s) => `<div class="card" style="margin-top:12px"><b>${esc(s.title)}</b> <span class="tag">${esc(s.cat)}</span> <span class="mu">${dl(s.created)}</span><p>${esc(s.desc)}</p><form data-f="resp" data-id="${s.id}" class="row"><select name="status">${["new", "reviewing", "planned", "completed", "declined"].map((x) => `<option ${s.status === x ? "selected" : ""}>${x}</option>`).join("")}</select><input name="resp" maxlength="500" value="${esc(s.resp)}" placeholder="Response visible to student"><button class="btn p">Save</button></form></div>`).join("") || '<p class="mu">No suggestions match.</p>'}`,
+            U().name,
+          );
+        },
+        "admin/campaigns"() {
+          const c = DB.camp,
+            pl = Object.entries(c.planned),
+            ta = Object.values(c.actual).reduce((s, x) => s + x, 0);
+          return shell(
+            AN,
+            `<h1>Campaign settings</h1><div class="card"><form data-f="camp"><div class="row"><div><label>Name</label><input name="name" value="${esc(c.name)}"></div><div><label>Target</label><input name="target" type="number" min="1" value="${c.target}"></div><div><label>Start</label><input name="start" type="date" value="${c.start}"></div><div><label>End</label><input name="end" type="date" value="${c.end}"></div><div><label>Status</label><select name="status">${["draft", "active", "ended"].map((x) => `<option ${c.status === x ? "selected" : ""}>${x}</option>`).join("")}</select></div></div><h3>Budget (cap ₹2,000): planned vs actual</h3><div class="row">${pl.map(([k, v]) => `<div><label>${k} — planned ₹${v}</label><input name="a_${k}" type="number" min="0" value="${c.actual[k]}" aria-label="Actual spend for ${k}"></div>`).join("")}</div><label>Notes</label><textarea name="notes" rows="2">${esc(c.notes)}</textarea><p>Planned total: ₹${pl.reduce((s, x) => s + x[1], 0)} (proposed, not spent). Cost per registration: ${ta > 0 ? "₹" + (ta / stu().length).toFixed(2) : "n/a until actual spend is entered"}.</p><button class="btn p">Save</button> <button type="button" data-a="reset">Reset demo data</button></form></div><div class="card" style="margin-top:14px"><h3>Audit log</h3>${
+              DB.audit
+                .slice(0, 8)
+                .map(
+                  (x) =>
+                    `<div class="mu">${dt(x.t)} · ${esc(x.by)} · ${esc(x.a)}</div>`,
+                )
+                .join("") || '<p class="mu">No admin changes yet.</p>'
+            }</div><p class="mu" style="font-size:12px">WhatsApp community URL is set in the COMMUNITY_URL constant (env var in the full build).</p>`,
+            U().name,
+          );
+        },
+        "admin/profile"() {
+          const u = U();
+          return shell(
+            AN,
+            `<h1>Admin profile</h1><div class="card"><p><b>${esc(u.name)}</b><br>${esc(u.email)}<br>Role: admin (cannot be changed here)<br>Session expires: ${dt(sess.exp)}</p><button data-a="logout">Log out</button></div>`,
+            u.name,
+          );
+        },
+      };
+      function lf(k) {
+        return `<form data-f="${k}" novalidate><label>Email</label><input name="email" type="email" autocomplete="username" required><label>Password</label><input name="password" type="password" autocomplete="current-password" required><p><button class="btn p">Log in</button></p></form>`;
+      }
+      /* ---- v2 growth layer ---- */
+      const CH = [
+        ["Ambassadors / clubs", ["College ambassador/club"]],
+        ["WhatsApp groups", ["WhatsApp"]],
+        [
+          "Referrals / social",
+          ["Friend referral", "Instagram", "LinkedIn", "Facebook"],
+        ],
+      ];
+      const chT = () =>
+        DB.camp.ch ||
+        (DB.camp.ch = {
+          "Ambassadors / clubs": 250,
+          "WhatsApp groups": 150,
+          "Referrals / social": 100,
+        });
+      const money = (n) => "₹" + Number(n).toLocaleString("en-IN");
+      function stats() {
+        const a = stu(),
+          t = DB.camp.target,
+          n = a.length,
+          end = new Date(DB.camp.end + "T23:59:59"),
+          left = Math.max(0, Math.ceil((end - Date.now()) / DAY)),
+          rem = Math.max(0, t - n),
+          need = left ? Math.ceil(rem / left) : rem,
+          td = trend(a),
+          avg3 = td.slice(4).reduce((s, x) => s + x[1], 0) / 3,
+          spent = Object.values(DB.camp.actual).reduce((s, x) => s + x, 0),
+          el = Math.min(
+            7,
+            Math.max(
+              1,
+              Math.ceil((Date.now() - new Date(DB.camp.start)) / DAY),
+            ),
+          );
+        return { a, t, n, left, rem, need, avg3, spent, el };
+      }
+      function insights(s) {
+        const o = [],
+          c = chT();
+        if (s.rem === 0)
+          o.push("Target reached. Shift effort to attendance reminders.");
+        else if (s.avg3 < s.need)
+          o.push(
+            `Gap: ~${s.need}/day needed to reach ${s.t}; last-3-day average is ${s.avg3.toFixed(1)}/day (estimate from stored data). Add ambassador and WhatsApp pushes.`,
+          );
+        else
+          o.push(
+            "On pace: the last-3-day average meets the required daily pace (estimate). Keep the current mix.",
+          );
+        CH.forEach(([k, sr]) => {
+          const act = s.a.filter((u) => sr.includes(u.source)).length,
+            exp = (c[k] * s.el) / 7;
+          if (act < exp * 0.5)
+            o.push(
+              `${k}: ${act} registrations vs ~${Math.round(exp)} pro-rated planned by day ${s.el}. Planned targets are hypotheses, so test a new message here.`,
+            );
+        });
+        const idle = s.a.filter(
+          (u) => !DB.users.some((x) => x.refBy === u.code),
+        ).length;
+        o.push(
+          `${idle} of ${s.n} students have no referral yet. Ask them to use the share message on the Community page.`,
+        );
+        return o;
+      }
+      const _od = V["admin/dashboard"];
+      V["admin/dashboard"] = () => {
+        const s = stats(),
+          pct = (s.n / s.t) * 100;
+        return _od().replace(
+          "</main></div>",
+          `<div class="grid" style="margin-top:14px"><div class="card kpi"><b>${s.left}</b><span>Days remaining</span></div><div class="card kpi"><b>${s.need}</b><span>Needed per day (remaining ÷ days left)</span></div><div class="card kpi"><b>${money(s.spent)}</b><span>Budget spent (entered actuals)</span></div><div class="card kpi"><b>${s.spent > 0 && s.n ? money((s.spent / s.n).toFixed(0)) : "n/a"}</b><span>Cost per registration</span></div></div><div class="card" style="margin-top:14px"><h3>Next best actions <span class="tag">RULE-BASED ESTIMATES</span></h3><ul>${insights(
+            s,
+          )
+            .map((x) => `<li>${esc(x)}</li>`)
+            .join(
+              "",
+            )}</ul><p>${[25, 50, 75, 100].map((p) => `<span class="tag" style="opacity:${pct >= p ? 1 : 0.45}">${p}% ${pct >= p ? "reached ✓" : "to go"}</span>`).join(" ")}</p></div></main></div>`,
+        );
+      };
+      V["admin/growth"] = () => {
+        const s = stats(),
+          c = chT(),
+          p = DB.camp.planned,
+          pt = Object.values(p).reduce((x, y) => x + y, 0),
+          st = new Date(DB.camp.start),
+          dT = Math.ceil(s.t / 7);
+        const play = [
+          "Launch ambassador kits and club posts",
+          "Post in placement WhatsApp groups",
+          "Start the ₹800 paid-social test with 2 creatives",
+          "Review early results and pick a winning message",
+          "Scale the winner with the ₹600 allocation",
+          "Referral push: ask registered students to share",
+          "Last call and reminders",
+        ];
+        const tl = play
+          .map((a, i) => {
+            const d = new Date(st.getTime() + i * DAY),
+              ds = d.toDateString(),
+              n = s.a.filter(
+                (u) => new Date(u.created).toDateString() === ds,
+              ).length,
+              td = ds === new Date().toDateString(),
+              pa = d < new Date() && !td;
+            return `<tr><td>Day ${i + 1} · ${dl(d)}</td><td>${dT}</td><td>${pa || td ? n : "—"}</td><td>${td ? "Today" : pa ? (n >= dT ? "Hit" : "Missed") : "Upcoming"}</td><td style="white-space:normal">${a}</td></tr>`;
+          })
+          .join("");
+        const ct = CH.map(([k, sr]) => {
+          const n = s.a.filter((u) => sr.includes(u.source)).length;
+          return `<tr><td>${k}</td><td><input type="number" min="0" name="c_${k}" value="${c[k]}" aria-label="Planned target for ${k}" style="width:90px"></td><td>${n}</td><td>${((n / Math.max(1, c[k])) * 100).toFixed(0)}%</td><td>${s.n ? ((n / s.n) * 100).toFixed(0) : 0}%</td></tr>`;
+        }).join("");
+        const ab =
+          (DB.ab || [])
+            .map(
+              (x) =>
+                `<tr><td>${esc(x.n)}</td><td style="white-space:normal">${esc(x.h)}</td><td>${esc(x.m)}</td><td>${esc(x.r) || "pending"}</td><td>${esc(x.d)}</td><td><button data-a="abdel" data-id="${x.id}" aria-label="Delete experiment ${esc(x.n)}">Delete</button></td></tr>`,
+            )
+            .join("") ||
+          '<tr><td colspan="6" class="mu">No experiments yet.</td></tr>';
+        return shell(
+          AN,
+          `<h1>Growth plan <span class="tag">PLANNED TARGETS, NOT RESULTS</span></h1><div class="grid"><div class="card kpi"><b>${s.left}</b><span>Days remaining</span></div><div class="card kpi"><b>${s.need}</b><span>Needed per day = remaining ÷ days left</span></div><div class="card kpi"><b>${dT}</b><span>Baseline daily goal = target ÷ 7</span></div></div>
+<div class="card tw" style="margin-top:14px"><h3>7-day sprint timeline</h3><table><tr><th>Day</th><th>Daily target</th><th>Actual</th><th>Status</th><th>Suggested next action</th></tr>${tl}</table></div>
+<div class="card tw" style="margin-top:14px"><h3>Channel plan vs actual</h3><form data-f="chs"><table><tr><th>Channel</th><th>Planned target</th><th>Actual</th><th>% of target</th><th>Share of total</th></tr>${ct}</table><p><button class="btn p">Save targets</button></p></form><p class="mu" style="font-size:12px">Targets are editable hypotheses (default 250 / 150 / 100). Paid social has no row because it is not a tracked source here, and cost per channel is unavailable because spend is not recorded per channel. The visits → leads → registrations funnel is unavailable: visits are not tracked.</p></div>
+<div class="card" style="margin-top:14px"><h3>Budget planner (cap ₹2,000)</h3><form data-f="plan"><div class="row">${Object.entries(
+            p,
+          )
+            .map(
+              ([k, v]) =>
+                `<div><label>${k}</label><input name="p_${k}" type="number" min="0" value="${v}"></div>`,
+            )
+            .join(
+              "",
+            )}</div><p>Planned total ${money(pt)} · remaining ${money(2000 - pt)}. This is a proposed allocation, not spend. Paid ads alone do not guarantee 500 registrations.</p><button class="btn p">Save plan</button></form></div>
+<div class="card tw" style="margin-top:14px"><h3>A/B experiment tracker</h3><form data-f="ab" class="row"><input name="n" aria-label="Variant name" placeholder="Variant name" maxlength="60" required><input name="h" aria-label="Hypothesis" placeholder="Hypothesis" maxlength="200"><input name="m" aria-label="Metric" placeholder="Metric" maxlength="60"><input name="r" aria-label="Result" placeholder="Result (blank = pending)" maxlength="100"><select name="d" aria-label="Decision"><option>Undecided</option><option>Keep</option><option>Drop</option><option>Iterate</option></select><button class="btn p">Add</button></form><table><tr><th>Variant</th><th>Hypothesis</th><th>Metric</th><th>Result</th><th>Decision</th><th></th></tr>${ab}</table></div>`,
+          U().name,
+        );
+      };
+      const vb = `<p>Message variants: <button type="button" data-a="variant" data-k="practical">Practical outcome</button> <button type="button" data-a="variant" data-k="beginner">Beginner-friendly</button> <button type="button" data-a="variant" data-k="peer">Peer / social proof</button></p>`;
+      ["student/referrals", "student/community"].forEach((k) => {
+        const o = V[k];
+        V[k] = () => o().replace('<textarea id="m"', vb + '<textarea id="m"');
+      });
+      const _cm = V["student/community"];
+      V["student/community"] = () => {
+        const L = link(U()),
+          T = [
+            [
+              "Outreach message",
+              `Hi! We're sharing a free online workshop, "Build Your First AI Project in 60 Minutes", for final-year engineering students. Beginner-friendly and practical. Register: ${L}`,
+            ],
+            [
+              "Follow-up message",
+              `Quick reminder about the free "Build Your First AI Project in 60 Minutes" workshop. If it helps you, register here: ${L}. Feel free to forward it to a friend.`,
+            ],
+            [
+              "Poster copy",
+              `FREE ONLINE WORKSHOP · Build Your First AI Project in 60 Minutes · Final-year engineers, all branches welcome · Register: ${L}`,
+            ],
+          ];
+        return _cm().replace(
+          "</main></div>",
+          `<div class="card" style="margin-top:14px"><h3>Campus ambassador toolkit</h3>${T.map((t) => `<p><b>${t[0]}</b><br>${esc(t[1])}<br><button data-a="cp" data-t="${esc(t[1])}">Copy</button></p>`).join("")}<p class="mu" style="font-size:12px">No workshop date or joining link is confirmed, so none is mentioned. QR codes are not built yet.</p></div></main></div>`,
+        );
+      };
+      const _pub = pub;
+      pub = (b) =>
+        _pub(b) +
+        `<footer class="wrap mu" style="font-size:13px;border-top:1px solid var(--bd)"><b>NxtWave Growth Hub</b> · independent assessment prototype, not affiliated with NxtWave. Goal: ${DB.camp.target} registrations in 7 days for a free online 60-minute workshop. Data is stored only in this browser. <button data-a="go" data-v="details">Campaign details</button> <button data-a="go" data-v="register">Register</button> <button data-a="go" data-v="admin/login">Admin demo</button></footer>`;
+      function cu() {
+        if (matchMedia("(prefers-reduced-motion:reduce)").matches) return;
+        document.querySelectorAll(".kpi b").forEach((el) => {
+          const m = el.textContent.match(/^(₹?)([\d,.]+)(%?)$/);
+          if (!m) return;
+          const to = parseFloat(m[2].replace(/,/g, "")),
+            dec = m[2].includes("."),
+            t0 = performance.now();
+          (function f(t) {
+            const k = Math.min(1, (t - t0) / 700),
+              v = to * (1 - Math.pow(1 - k, 3));
+            el.textContent =
+              m[1] +
+              (dec ? v.toFixed(1) : Math.round(v).toLocaleString("en-IN")) +
+              m[3];
+            if (k < 1) requestAnimationFrame(f);
+          })(t0);
+        });
+      }
+      /* ---- v3 dashboards ---- */
+      const PAL = [
+        "#7c6cff",
+        "#22d3ee",
+        "#fb7185",
+        "#a3e635",
+        "#fbbf24",
+        "#f472b6",
+        "#60a5fa",
+      ];
+      const IC = {
+        "student/dashboard": "▦",
+        details: "◎",
+        "student/referrals": "⇄",
+        "student/community": "✦",
+        "student/suggestions": "✎",
+        "student/profile": "☺",
+        "admin/dashboard": "▦",
+        "admin/registrations": "☰",
+        "admin/referrals": "⇄",
+        "admin/growth": "↗",
+        "admin/suggestions": "✎",
+        "admin/campaigns": "⚙",
+        "admin/profile": "☺",
+      };
+      const av = (n) =>
+        `<i class="av" style="background:linear-gradient(135deg,hsl(${[...n].reduce((h, c) => h + c.charCodeAt(0), 0) % 360} 70% 55%),#4f46e5)">${esc(
+          n
+            .split(" ")
+            .map((x) => x[0])
+            .join("")
+            .slice(0, 2),
+        )}</i>`;
+      const gk = (c, i, v, l, s) =>
+        `<div class="gk kpi card ${c}"><span class="ic">${i}</span><b>${v}</b><span>${l}</span><small>${s || ""}</small></div>`;
+      function area(d, id, col = "#22d3ee") {
+        const w = 520,
+          h = 190,
+          p = 26,
+          m = Math.max(3, ...d.map((x) => x[1])),
+          P = d.map((x, i) => [
+            p + (i * (w - 2 * p)) / (d.length - 1),
+            h - p - (x[1] / m) * (h - 2 * p),
+          ]),
+          L = P[P.length - 1],
+          pa =
+            P.map((q, i) =>
+              i
+                ? `Q${P[i - 1][0]},${P[i - 1][1]} ${(P[i - 1][0] + q[0]) / 2},${(P[i - 1][1] + q[1]) / 2}`
+                : `M${q[0]},${q[1]}`,
+            ).join("") + `L${L[0]},${L[1]}`;
+        return `<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="Sign-ups per day: ${d.map((x) => x[0] + " " + x[1]).join(", ")}" style="width:100%"><defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${col}" stop-opacity=".4"/><stop offset="1" stop-color="${col}" stop-opacity="0"/></linearGradient></defs>${[0, 1, 2, 3].map((i) => `<line x1="${p}" x2="${w - p}" y1="${p + (i * (h - 2 * p)) / 3}" y2="${p + (i * (h - 2 * p)) / 3}" stroke="var(--bd)" stroke-dasharray="3 4"/>`).join("")}<path class="af" d="${pa}L${L[0]},${h - p}L${p},${h - p}Z" fill="url(#${id})"/><path class="dr" pathLength="1" d="${pa}" fill="none" stroke="${col}" stroke-width="3" stroke-linecap="round" style="filter:drop-shadow(0 0 6px ${col})"/>${P.map((q, i) => `<circle class="pt" cx="${q[0]}" cy="${q[1]}" r="5" fill="${col}"><title>${d[i][0]}: ${d[i][1]} sign-ups</title></circle><text x="${q[0]}" y="${h - 8}" font-size="10" text-anchor="middle" fill="var(--mu)">${d[i][0]}</text>`).join("")}</svg>`;
+      }
+      function donut(rows, cap) {
+        const T = rows.reduce((s, x) => s + x[1], 0) || 1,
+          C = 2 * Math.PI * 40;
+        let o = 0;
+        return `<div class="dn"><svg viewBox="0 0 100 100" role="img" aria-label="${cap}" width="170"><circle cx="50" cy="50" r="40" fill="none" stroke="var(--bd)" stroke-width="14"/>${rows
+          .map((x, i) => {
+            const l = (x[1] / T) * C,
+              c = `<circle class="sg" cx="50" cy="50" r="40" fill="none" stroke="${PAL[i % 7]}" stroke-width="14" stroke-dasharray="${l} ${C - l}" stroke-dashoffset="${-o}" transform="rotate(-90 50 50)"><title>${esc(x[0])}: ${x[1]}</title></circle>`;
+            o += l;
+            return c;
+          })
+          .join(
+            "",
+          )}<text x="50" y="55" text-anchor="middle" font-size="16" font-weight="700" fill="var(--tx)">${rows.reduce((s, x) => s + x[1], 0)}</text></svg><ul class="lg">${rows.map((x, i) => `<li><i style="background:${PAL[i % 7]}"></i>${esc(x[0])} <b>${x[1]}</b> (${Math.round((x[1] / T) * 100)}%)</li>`).join("")}</ul></div>`;
+      }
+      const ring = (p, l, col) => {
+        const C = 2 * Math.PI * 36,
+          v = Math.max(0, Math.min(100, p || 0));
+        return `<div class="rg"><svg viewBox="0 0 90 90" width="104" role="img" aria-label="${l}: ${Math.round(v)}%"><circle cx="45" cy="45" r="36" fill="none" stroke="var(--bd)" stroke-width="9"/><circle class="sg" cx="45" cy="45" r="36" fill="none" stroke="${col}" stroke-width="9" stroke-linecap="round" stroke-dasharray="${(v / 100) * C} ${C}" transform="rotate(-90 45 45)" style="filter:drop-shadow(0 0 4px ${col})"/><text x="45" y="50" text-anchor="middle" font-size="16" font-weight="700" fill="var(--tx)">${Math.round(v)}%</text></svg><span>${l}</span></div>`;
+      };
+      const refRows = () =>
+        stu()
+          .map((u) => ({
+            u,
+            n: DB.users.filter((x) => x.refBy === u.code).length,
+          }))
+          .filter((x) => x.n)
+          .sort((a, b) => b.n - a.n)
+          .slice(0, 6);
+      const lb = (adm) => {
+        const t = refRows(),
+          m = Math.max(1, ...t.map((x) => x.n));
+        return t.length
+          ? t
+              .map((x, i) => {
+                const p = x.u.name.split(" "),
+                  nm = adm ? x.u.name : p[0] + " " + (p[1] || "")[0] + ".";
+                return `<div class="lr"><b class="rk">${i + 1}</b>${av(x.u.name)}<span class="nm">${esc(nm)}</span><div class="bt"><i style="width:${(x.n / m) * 100}%"></i></div><b>${x.n}</b></div>`;
+              })
+              .join("")
+          : '<p class="mu">No referrals yet.</p>';
+      };
+      shell = (nav, body, who) => {
+        const adm = nav === AN,
+          s = stats(),
+          pct = Math.min(100, (s.n / s.t) * 100),
+          C = 2 * Math.PI * 18;
+        return `${adm ? `<div class="top"><b>NxtWave Growth Hub</b><span class="tag">PROTOTYPE · NOT OFFICIAL</span><span class="sp"></span><span>${esc(who)}</span><button data-a="logout">Log out</button></div>` : stuTop(who)}<div class="demo">DEMO DATA — NOT REAL REGISTRATIONS</div><div class="lay ${adm ? "adm" : "stu"}"><div class="orbs"><i style="width:320px;height:320px;background:#4f46e5;left:12%;top:8%"></i><i style="width:280px;height:280px;background:#0891b2;right:4%;bottom:4%;animation-delay:-6s"></i></div><nav class="side" aria-label="Portal navigation"><div class="me">${av(who)}<div><b>${esc(who)}</b><br><small class="mu">${adm ? "Administrator" : "Student"}</small></div></div><div class="nl">MENU</div>${nav.map((n, i) => `<button style="animation-delay:${i * 0.05}s" data-a="go" data-v="${n[0]}" class="${on(n[0]) ? "on" : ""}" ${on(n[0]) ? 'aria-current="page"' : ""}><span class="gi">${IC[n[0]] || "•"}</span>${n[1]}</button>`).join("")}<div class="pulse card"><svg viewBox="0 0 44 44" width="44" aria-hidden="true"><circle cx="22" cy="22" r="18" fill="none" stroke="var(--bd)" stroke-width="5"/><circle class="sg" cx="22" cy="22" r="18" fill="none" stroke="var(--cy)" stroke-width="5" stroke-linecap="round" stroke-dasharray="${(pct / 100) * C} ${C}" transform="rotate(-90 22 22)"/></svg><div><b>${s.n}/${s.t}</b><br><small class="mu">registrations · demo</small></div></div></nav><main class="main">${S.msg ? `<div class="msg ${S.msg.t}" role="status">${esc(S.msg.m)}</div>` : ""}${body}</main></div>`;
+      };
+      V["student/dashboard"] = () => {
+        const u = U(),
+          s = stats(),
+          r = DB.users.filter((x) => x.refBy === u.code),
+          pc =
+            ["name", "college", "branch", "year", "city"].filter((k) => u[k])
+              .length * 20;
+        return shell(
+          SN,
+          `<h1>Welcome back, ${esc(u.name.split(" ")[0])}</h1><div class="grid">${gk("violet", "⇄", r.length, "Your referrals", "demo-attributed")}${gk("coral", "▦", s.n, "Campaign registrations", "target " + s.t)}${gk("pink", "☺", pc + "%", "Profile completion", "")}${gk("cyan", "⏳", s.left, "Days left", "registration window")}</div>
+<div class="grid" style="margin-top:14px"><div class="card"><h3>Campaign sign-ups, last 7 days</h3>${area(trend(s.a), "sa1")}</div><div class="card"><h3>Progress</h3><div class="rgs">${ring((s.n / s.t) * 100, "Campaign goal", "#22d3ee")}${ring(pc, "Your profile", "#7c6cff")}</div></div></div>
+<div class="grid" style="margin-top:14px"><div class="card"><h3>Top referrers <span class="tag">DEMO</span></h3>${lb(false)}</div><div class="card"><h3>Your referral link</h3><p>Code <b>${u.code}</b></p><code style="word-break:break-all">${esc(link(u))}</code><p><button data-a="cp" data-t="${esc(link(u))}">Copy link</button> <a class="btn p" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(msgFor(u))}">Share invitation</a></p></div></div>`,
+          u.name,
+        );
+      };
+      V["admin/dashboard"] = () => {
+        let a = stu();
+        if (S.src) a = a.filter((u) => u.source === S.src);
+        if (S.col) a = a.filter((u) => u.college === S.col);
+        const s = stats(),
+          td = trend(a),
+          rf = a.filter((u) => u.refBy),
+          pct = (s.n / s.t) * 100,
+          o = (x) =>
+            x
+              .map(
+                (y) =>
+                  `<option ${S.src === y || S.col === y ? "selected" : ""}>${esc(y)}</option>`,
+              )
+              .join("");
+        return shell(
+          AN,
+          `<h1>Overview <span class="tag">DEMO DATA</span></h1><div class="card row"><div><label>Source</label><select data-a="fs"><option value="">All</option>${o(SRC)}</select></div><div><label>College</label><select data-a="fc"><option value="">All</option>${o(COL)}</select></div></div>
+<div class="grid" style="margin-top:14px">${gk("violet", "▦", s.n, "Total unique registrations", "target " + s.t)}${gk("coral", "◎", s.rem, "Remaining to target", "")}${gk("pink", "☀", td[6][1], "Today (filtered)", "")}${gk("cyan", "⇄", rf.length, "Referred registrations", "")}</div>
+<div class="grid" style="margin-top:14px"><div class="card"><h3>Daily sign-ups, last 7 days</h3>${area(td, "ag1")}<p class="mu" style="font-size:12px">Daily goal = target ÷ 7 = ${Math.ceil(s.t / 7)}.</p></div><div class="card"><h3>Registrations by source</h3>${donut(
+            grp(a, (u) => u.source),
+            "Registrations by source",
+          )}</div></div>
+<div class="grid" style="margin-top:14px"><div class="card"><h3>Key indicators</h3><div class="rgs">${ring(pct, "Target achieved", "#22d3ee")}${ring((s.avg3 / Math.max(1, s.need)) * 100, "Pace vs needed", "#7c6cff")}${ring(a.length ? (rf.length / a.length) * 100 : 0, "Referral share", "#fb7185")}</div></div><div class="card"><h3>Top referrers</h3>${lb(true)}</div></div>
+<div class="card" style="margin-top:14px"><h3>By college</h3>${bars(grp(a, (u) => u.college))}</div>
+<div class="grid" style="margin-top:14px"><div class="card kpi"><b>${s.left}</b><span>Days remaining</span></div><div class="card kpi"><b>${s.need}</b><span>Needed per day (remaining ÷ days left)</span></div><div class="card kpi"><b>${money(s.spent)}</b><span>Budget spent (entered actuals)</span></div><div class="card kpi"><b>${s.spent > 0 && s.n ? money((s.spent / s.n).toFixed(0)) : "n/a"}</b><span>Cost per registration</span></div></div>
+<div class="card" style="margin-top:14px"><h3>Next best actions <span class="tag">RULE-BASED ESTIMATES</span></h3><ul>${insights(
+            s,
+          )
+            .map((x) => `<li>${esc(x)}</li>`)
+            .join(
+              "",
+            )}</ul><p>${[25, 50, 75, 100].map((p) => `<span class="tag" style="opacity:${pct >= p ? 1 : 0.45}">${p}% ${pct >= p ? "reached ✓" : "to go"}</span>`).join(" ")}</p></div>`,
+          U().name,
+        );
+      };
+      const HLS =
+        "https://stream.mux.com/Jwr2RhmsNrd6GEspBNgm02vJsRZAGlaoQIh4AucGdASw.m3u8";
+      function hv() {
+        const v = $("#hv");
+        if (!v) return;
+        if (matchMedia("(prefers-reduced-motion:reduce)").matches) {
+          v.remove();
+          return;
+        }
+        if (window._h) {
+          try {
+            window._h.destroy();
+          } catch (e) {}
+          window._h = null;
+        }
+        const id = HLS.split("/").pop().replace(".m3u8", ""),
+          mp = ["capped-1080p", "high", "medium"];
+        let mi = 0;
+        v.poster = `https://image.mux.com/${id}/thumbnail.webp?time=0`;
+        const ok = () => {
+            const p = v.play();
+            p && p.catch(() => {});
+          },
+          bad = () => {
+            if (mi < mp.length) {
+              v.src = `https://stream.mux.com/${id}/${mp[mi++]}.mp4`;
+              ok();
+            } else v.remove();
+          };
+        v.addEventListener("error", () => {
+          console.warn("Hero video: source failed, trying fallback");
+          bad();
+        });
+        const go = () => {
+          if (window.Hls && Hls.isSupported()) {
+            const h = (window._h = new Hls({ enableWorker: true }));
+            h.loadSource(HLS);
+            h.attachMedia(v);
+            h.on(Hls.Events.MANIFEST_PARSED, ok);
+            h.on(Hls.Events.ERROR, (e, d) => {
+              console.warn("Hero video HLS error:", d.type, d.details);
+              if (d.fatal) {
+                h.destroy();
+                window._h = null;
+                v.removeAttribute("src");
+                bad();
+              }
+            });
+          } else if (v.canPlayType("application/vnd.apple.mpegurl")) {
+            v.src = HLS;
+            ok();
+          } else bad();
+        };
+        const L = [
+          "https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.13/hls.min.js",
+          "https://cdn.jsdelivr.net/npm/hls.js@1.5.13/dist/hls.min.js",
+        ];
+        const ld = (i) => {
+          if (window.Hls || i >= L.length) return go();
+          const s = document.createElement("script");
+          s.src = L[i];
+          s.onload = go;
+          s.onerror = () => ld(i + 1);
+          document.head.appendChild(s);
+        };
+        ld(0);
+      }
+      /* ---- v4 student: Build & Learn + navbar ---- */
+      const VIDEO_URL = ""; // set to a real MP4/WebM or .m3u8 URL of the ~3-minute workshop intro; empty = honest "not available" state
+      const on = (k) =>
+        S.view === k || (k === "details" && S.view === "student/build");
+      const stuTop = (who) =>
+        `<header class="top sn"><b>NxtWave Growth Hub</b><nav class="tn sl" aria-label="Student">${[
+          ["student/dashboard", "Dashboard"],
+          ["details", "Build &amp; Learn"],
+          ["student/referrals", "Referral"],
+          ["student/community", "Community"],
+        ]
+          .map(
+            (n) =>
+              `<button data-a="go" data-v="${n[0]}" class="${on(n[0]) ? "on" : ""}" ${on(n[0]) ? 'aria-current="page"' : ""}>${n[1]}</button>`,
+          )
+          .join(
+            "",
+          )}</nav><span class="sp"></span><div class="um"><button class="ub" data-a="menu" aria-haspopup="true" aria-expanded="${!!S.menu}">${av(who)}<span>${esc(who.split(" ")[0])}</span> ▾</button>${S.menu ? `<div class="dd" role="menu"><button role="menuitem" data-a="go" data-v="student/profile">Profile</button><button role="menuitem" data-a="go" data-v="student/suggestions">Suggestions</button><button role="menuitem" data-a="logout">Log out</button></div>` : ""}</div></header>`;
+      const bl =
+        () => `<p class="mu" style="letter-spacing:.12em;font-size:12px;margin:0">BUILD &amp; LEARN</p><h1 style="font-size:clamp(28px,4vw,42px)">Your First AI Project Starts Here.</h1><p class="mu" style="max-width:640px;font-size:17px">Go beyond theory. Explore practical AI development and take your first step toward building a project you can showcase.</p>
+<div class="card vc" style="margin-top:16px"><div class="vf" id="vf">${VIDEO_URL ? '<button class="pb" data-a="play" aria-label="Play the workshop introduction video">▶</button>' : '<div class="vu"><button class="pb" disabled aria-disabled="true" aria-label="Video unavailable">▶</button><b>Video not available yet</b><span class="mu">No video source is configured. Set VIDEO_URL in the code to enable playback.</span></div>'}</div>
+<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:14px"><div><h3 style="margin:0">Your 3-Minute Workshop Introduction</h3><p class="mu" style="max-width:600px;margin:4px 0 0">Discover what you'll build, how the session works, and how to get started—even if you're new to AI.</p></div><span class="tag" style="align-self:flex-start">3 min</span></div></div>
+<p style="text-align:center;margin:20px 0"><button class="btn p big" data-a="go" data-v="student/build">Start Building →</button></p>
+<div class="path"><div class="card"><b>1</b>Watch the introduction</div><div class="card"><b>2</b>Follow the project steps</div><div class="card"><b>3</b>Build and explore your first AI project</div></div>`;
+      const _dt = V.details;
+      V.details = () =>
+        sess?.role === "student" ? shell(SN, bl(), U().name) : _dt();
+      const BS = [
+        [
+          "Pick a small problem",
+          "Choose one simple thing an AI model could help with, such as summarising notes or sorting short messages into categories.",
+        ],
+        [
+          "Set up your tools",
+          "Get a code editor and Python, or a hosted notebook, ready. Exact tools will be confirmed with the workshop details.",
+        ],
+        [
+          "Build a minimal version",
+          "Send one input to a model and show the output. Keep it small enough to finish.",
+        ],
+        [
+          "Test and improve",
+          "Try different inputs, note where it fails, and adjust your prompt or approach.",
+        ],
+        [
+          "Write it up",
+          "Save your code in a repository with a short README so you can showcase it.",
+        ],
+      ];
+      V["student/build"] = () => {
+        const u = U(),
+          d = u.bs || [],
+          nx = BS.findIndex((_, i) => !d.includes(i));
+        return shell(
+          SN,
+          `<button data-a="go" data-v="details">← Build &amp; Learn</button><h1 style="margin-top:12px">Start building your first AI project</h1><p class="mu" style="max-width:640px">A simple starter path. Workshop-specific materials, date and joining link are not confirmed yet, so these steps are general guidance.</p>
+<div class="card" style="margin-top:14px"><div style="display:flex;gap:18px;align-items:center;flex-wrap:wrap">${ring((d.length / BS.length) * 100, "Steps done", "#22d3ee")}<div><h3>${nx < 0 ? "All steps complete. Nice work." : "Next step: " + (nx + 1) + ". " + BS[nx][0]}</h3><p class="mu">Tick each step when you finish it. Progress is saved in this browser.</p></div></div></div>
+<div class="card" style="margin-top:14px">${BS.map((s, i) => `<div class="stp ${d.includes(i) ? "fin" : ""} ${i === nx ? "nx" : ""}"><button data-a="stp" data-i="${i}" aria-pressed="${d.includes(i)}" aria-label="Mark step ${i + 1} as ${d.includes(i) ? "not done" : "done"}">${d.includes(i) ? "✓" : i + 1}</button><div><b>${s[0]}</b> ${i === nx ? '<span class="tag">NEXT STEP</span>' : ""}<p class="mu">${s[1]}</p></div></div>`).join("")}</div>`,
+          u.name,
+        );
+      };
+      /* render + guards */
+      function render() {
+        if (sess && Date.now() > sess.exp) {
+          sess = null;
+          S.msg = { t: "er", m: "Session expired. Please log in again." };
+          S.view = "login";
+        }
+        let v = S.view;
+        if (v.startsWith("student/") && sess?.role !== "student") v = "login";
+        if (
+          v.startsWith("admin/") &&
+          v !== "admin/login" &&
+          sess?.role !== "admin"
+        )
+          v = "admin/login";
+        if (v === "login" && sess?.role === "student") v = "student/dashboard";
+        S.view = v;
+        $("#app").innerHTML = V[v]();
+        cu();
+        hv();
+      }
+      /* handlers */
+      const H = {
+        async reg(d) {
+          S.draft = d;
+          const e = d.email.trim().toLowerCase(),
+            er = [],
+            code = (d.ref || "").trim().toUpperCase();
+          if (d.name.trim().length < 2) er.push("Enter your full name.");
+          if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e))
+            er.push("Enter a valid email.");
+          if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(d.password))
+            er.push(
+              "Password needs 8+ characters with upper, lower and a digit.",
+            );
+          if (d.password !== d.confirm) er.push("Passwords do not match.");
+          if (!d.college.trim() || !d.branch || !d.year || !d.source)
+            er.push("College, branch, year and source are required.");
+          if (!d.consent) er.push("Please accept the consent checkbox.");
+          let by = null;
+          if (code) {
+            by = DB.users.find((u) => u.code === code);
+            if (!by) er.push("Referral code not found.");
+            else if (by.email === e) er.push("Self-referral is not allowed.");
+          }
+          if (DB.users.some((u) => u.email === e))
+            er.push("An account with this email already exists.");
+          if (er.length) return flash("er", er.join(" "));
+          const u = {
+            id: uid(),
+            name: d.name.trim(),
+            email: e,
+            pwh: await sha(d.password),
+            role: "student",
+            college: d.college.trim(),
+            branch: d.branch,
+            year: d.year,
+            city: d.city.trim(),
+            source: d.source,
+            code: mk(),
+            refBy: by ? by.code : null,
+            created: Date.now(),
+            status: "valid",
+          };
+          DB.users.push(u);
+          sv();
+          S.draft = null;
+          sess = { id: u.id, role: "student", exp: Date.now() + 36e5 };
+          S.msg = { t: "ok", m: "Registered! Your referral code is " + u.code };
+          go("student/dashboard");
+        },
+        async stu(d) {
+          await auth(d, "student", "student/dashboard", "login");
+        },
+        async adm(d) {
+          await auth(d, "admin", "admin/dashboard", "admin/login");
+        },
+        forgot(d) {
+          flash(
+            "ok",
+            "If an account exists for " +
+              d.email.trim().toLowerCase() +
+              ", a reset link would be sent (not sent in demo mode).",
+          );
+        },
+        sugg(d) {
+          const u = U(),
+            h = DB.subs.filter((x) => x.u === u.id && Date.now() - x.t < 36e5);
+          if (h.length >= 5)
+            return flash("er", "Limit reached: 5 submissions per hour.");
+          if (d.title.trim().length < 3 || d.desc.trim().length < 10)
+            return flash(
+              "er",
+              "Add a short idea and a description of at least 10 characters.",
+            );
+          DB.subs.push({ u: u.id, t: Date.now() });
+          DB.sugg.unshift({
+            id: uid(),
+            uid: u.id,
+            cat: d.cat,
+            title: d.title.trim(),
+            desc: d.desc.trim(),
+            contact: d.contact.trim(),
+            status: "new",
+            resp: "",
+            created: Date.now(),
+          });
+          sv();
+          flash("ok", "Thanks! Your suggestion was submitted.");
+        },
+        prof(d) {
+          const u = U();
+          if (d.name.trim().length < 2)
+            return flash("er", "Name is too short.");
+          Object.assign(u, {
+            name: d.name.trim(),
+            college: d.college.trim(),
+            branch: d.branch,
+            year: d.year,
+            city: d.city.trim(),
+          });
+          sv();
+          flash("ok", "Profile saved.");
+        },
+        resp(d, f) {
+          const s = DB.sugg.find((x) => x.id === f.dataset.id);
+          s.status = d.status;
+          s.resp = d.resp.trim();
+          audit(`Suggestion "${s.title}" -> ${s.status}`);
+          sv();
+          flash("ok", "Suggestion updated.");
+        },
+        camp(d) {
+          const c = DB.camp,
+            t = +d.target;
+          if (!(t > 0) || d.end < d.start)
+            return flash(
+              "er",
+              "Target must be positive and end date after start.",
+            );
+          Object.assign(c, {
+            name: d.name,
+            target: t,
+            start: d.start,
+            end: d.end,
+            status: d.status,
+            notes: d.notes,
+          });
+          Object.keys(c.actual).forEach(
+            (k) => (c.actual[k] = Math.max(0, +d["a_" + k] || 0)),
+          );
+          audit("Campaign settings updated");
+          sv();
+          flash("ok", "Campaign saved.");
+        },
+      };
+      async function auth(d, role, ok, bad) {
+        const e = d.email.trim().toLowerCase(),
+          u = DB.users.find((x) => x.email === e && x.role === role);
+        if (!u || u.pwh !== (await sha(d.password)))
+          return flash("er", "Invalid email or password.");
+        sess = {
+          id: u.id,
+          role,
+          exp: Date.now() + (role === "admin" ? 36e5 : 288e5),
+        };
+        try {
+          sessionStorage.setItem("nwsess", JSON.stringify(sess));
+        } catch (x) {}
+        S.msg = null;
+        go(ok);
+      }
+      const C = {
+        menu: () => {
+          S.menu = !S.menu;
+          render();
+        },
+        go: (d) => {
+          S.menu = false;
+          S.msg = null;
+          S.q = "";
+          S.src = "";
+          S.col = "";
+          S.st = "";
+          go(d.v);
+        },
+        logout: () => {
+          S.menu = false;
+          sess = null;
+          try {
+            sessionStorage.removeItem("nwsess");
+          } catch (e) {}
+          S.msg = { t: "ok", m: "Logged out." };
+          go("home");
+        },
+        fill: (d) => {
+          const f = $("form"),
+            dm =
+              d.r === "admin"
+                ? ["admin.demo@example.com", "AdminDemo@123"]
+                : ["student.demo@example.com", "StudentDemo@123"];
+          f.email.value = dm[0];
+          f.password.value = dm[1];
+        },
+        cp: (d) => copy(d.t),
+        cpm: () => copy($("#m").value, "Message copied."),
+        native: async () => {
+          const t = $("#m").value;
+          try {
+            if (navigator.share) await navigator.share({ text: t });
+            else copy(t, "Web Share unavailable, message copied instead.");
+          } catch (e) {}
+        },
+        del: () => {
+          U().delReq = true;
+          sv();
+          flash("ok", "Deletion request recorded (demo mode).");
+        },
+        fs: (d, t) => {
+          S.src = t.value;
+          S.page = 0;
+          render();
+        },
+        fc: (d, t) => {
+          S.col = t.value;
+          render();
+        },
+        fst: (d, t) => {
+          S.st = t.value;
+          render();
+        },
+        sq: (d, t) => {
+          S.q = t.value;
+          S.page = 0;
+          render();
+          const i = document.querySelector("[data-a=sq]");
+          i.focus();
+          i.setSelectionRange(99, 99);
+        },
+        pn: () => {
+          S.page++;
+          render();
+        },
+        pp: () => {
+          S.page--;
+          render();
+        },
+        ust: (d, t) => {
+          const u = DB.users.find((x) => x.id === d.id);
+          u.status = t.value;
+          audit(`Registration ${u.email} -> ${u.status}`);
+          sv();
+          render();
+        },
+        csv: () => {
+          let a = DB.users.filter(
+            (u) =>
+              u.role === "student" &&
+              (!S.src || u.source === S.src) &&
+              (!S.q ||
+                (u.name + u.email + u.college)
+                  .toLowerCase()
+                  .includes(S.q.toLowerCase())),
+          );
+          const q = (v) =>
+              '"' +
+              (/^[=+\-@]/.test(String(v)) ? "'" : "") +
+              String(v ?? "").replace(/"/g, '""') +
+              '"',
+            h = [
+              "name",
+              "email",
+              "college",
+              "branch",
+              "year",
+              "source",
+              "refBy",
+              "created",
+              "status",
+            ];
+          const s = [h.join(",")]
+            .concat(
+              a.map((u) =>
+                h
+                  .map((k) =>
+                    q(
+                      k === "created"
+                        ? new Date(u.created).toISOString()
+                        : u[k],
+                    ),
+                  )
+                  .join(","),
+              ),
+            )
+            .join("\n");
+          try {
+            const l = document.createElement("a");
+            l.href = URL.createObjectURL(new Blob([s], { type: "text/csv" }));
+            l.download = "registrations.csv";
+            l.click();
+          } catch (e) {}
+          copy(
+            s,
+            `CSV of ${a.length} rows copied to clipboard (file download may be blocked in the hosted preview). Contains personal data: handle carefully.`,
+          );
+        },
+        reset: async () => {
+          if (confirm("Reset all demo data? This also logs you out.")) {
+            DB = await seed();
+            sv();
+            sess = null;
+            S.msg = { t: "ok", m: "Demo data reset." };
+            go("home");
+          }
+        },
+      };
+      Object.assign(H, {
+        chs(d) {
+          const c = chT();
+          CH.forEach(([k]) => (c[k] = Math.max(0, +d["c_" + k] || 0)));
+          audit("Channel targets updated");
+          sv();
+          flash(
+            "ok",
+            "Planned channel targets saved (hypotheses, not results).",
+          );
+        },
+        plan(d) {
+          const p = DB.camp.planned,
+            n = {};
+          let t = 0;
+          for (const k in p) {
+            n[k] = Math.max(0, +d["p_" + k] || 0);
+            t += n[k];
+          }
+          if (t > 2000)
+            return flash(
+              "er",
+              `Planned total ${money(t)} exceeds the ₹2,000 cap.`,
+            );
+          DB.camp.planned = n;
+          audit("Budget plan updated");
+          sv();
+          flash("ok", `Plan saved. Remaining: ${money(2000 - t)}.`);
+        },
+        ab(d) {
+          if (d.n.trim().length < 2) return flash("er", "Name the experiment.");
+          DB.ab = DB.ab || [];
+          DB.ab.push({
+            id: uid(),
+            n: d.n.trim(),
+            h: d.h.trim(),
+            m: d.m.trim(),
+            r: d.r.trim(),
+            d: d.d,
+          });
+          audit("Experiment added: " + d.n.trim());
+          sv();
+          flash("ok", "Experiment added.");
+        },
+      });
+      Object.assign(C, {
+        play: () => {
+          const f = $("#vf");
+          if (!f || !VIDEO_URL) return;
+          f.innerHTML =
+            '<video id="bv" controls playsinline autoplay style="width:100%;height:100%;background:#000"></video><div id="vs" class="vs" role="status">Loading video…</div>';
+          const v = $("#bv"),
+            st = $("#vs"),
+            bad = () => {
+              st.textContent =
+                "The video could not be loaded. Check VIDEO_URL and your connection.";
+              st.style.display = "flex";
+            };
+          v.addEventListener("playing", () => (st.style.display = "none"));
+          v.addEventListener("error", bad);
+          if (
+            /\.m3u8/.test(VIDEO_URL) &&
+            !v.canPlayType("application/vnd.apple.mpegurl")
+          ) {
+            const go = () => {
+              if (!window.Hls || !Hls.isSupported()) return bad();
+              const h = new Hls();
+              h.loadSource(VIDEO_URL);
+              h.attachMedia(v);
+              h.on(Hls.Events.ERROR, (e, d) => {
+                if (d.fatal) {
+                  h.destroy();
+                  bad();
+                }
+              });
+            };
+            if (window.Hls) go();
+            else {
+              const s = document.createElement("script");
+              s.src =
+                "https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.13/hls.min.js";
+              s.onload = go;
+              s.onerror = bad;
+              document.head.appendChild(s);
+            }
+          } else v.src = VIDEO_URL;
+          v.play().catch(() => {});
+        },
+        stp: (d) => {
+          const u = U(),
+            i = +d.i,
+            b = u.bs || [];
+          u.bs = b.includes(i) ? b.filter((x) => x !== i) : [...b, i];
+          sv();
+          render();
+        },
+        scroll: () => {
+          const e = document.getElementById("how");
+          if (e)
+            e.scrollIntoView({
+              behavior: matchMedia("(prefers-reduced-motion:reduce)").matches
+                ? "auto"
+                : "smooth",
+            });
+        },
+        abdel: (d) => {
+          DB.ab = (DB.ab || []).filter((x) => x.id !== d.id);
+          sv();
+          render();
+        },
+        variant: (d) => {
+          const L = link(U()),
+            v = {
+              practical: `Free 60-minute online workshop: build your first AI project and leave with a portfolio starting point. Register: ${L}`,
+              beginner: `New to AI? This free, beginner-friendly workshop walks you through building a small AI project in 60 minutes. Register: ${L}`,
+              peer: `I'm joining "Build Your First AI Project in 60 Minutes" and thought of you. Free and online. Register with my link: ${L}`,
+            };
+          $("#m").value = v[d.k];
+        },
+      });
+      document.addEventListener("click", (e) => {
+        const t = e.target.closest("[data-a]");
+        if (
+          t &&
+          t.tagName !== "SELECT" &&
+          t.tagName !== "INPUT" &&
+          C[t.dataset.a]
+        )
+          C[t.dataset.a](t.dataset, t);
+      });
+      document.addEventListener("change", (e) => {
+        const t = e.target;
+        if (["SELECT"].includes(t.tagName) && t.dataset.a && C[t.dataset.a])
+          C[t.dataset.a](t.dataset, t);
+      });
+      document.addEventListener("input", (e) => {
+        const t = e.target;
+        if (t.tagName === "INPUT" && t.dataset.a === "sq") C.sq({}, t);
+      });
+      document.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const f = e.target,
+          d = Object.fromEntries(new FormData(f));
+        try {
+          await H[f.dataset.f](d, f);
+        } catch (x) {
+          flash("er", "Something went wrong: " + x.message);
+        }
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && S.menu) {
+          S.menu = false;
+          render();
+        }
+      });
+      document.addEventListener("click", (e) => {
+        if (S.menu && !e.target.closest(".um")) {
+          S.menu = false;
+          render();
+        }
+      });
+      (async () => {
+        DB = ld();
+        if (!DB || !DB.users) {
+          DB = await seed();
+          sv();
+        }
+        try {
+          const s = JSON.parse(sessionStorage.getItem("nwsess"));
+          if (s && DB.users.some((u) => u.id === s.id)) sess = s;
+        } catch (e) {}
+        if (sess)
+          S.view =
+            sess.role === "admin" ? "admin/dashboard" : "student/dashboard";
+        if (!sess && new URLSearchParams(location.search).get("ref"))
+          S.view = "register";
+        render();
+      })();
+    </script>
+  </body>
+</html>
