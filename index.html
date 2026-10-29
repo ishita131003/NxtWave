@@ -734,7 +734,34 @@
         border: 1px solid #9f1239;
       }
       footer.wrap {
-        margin-top: 30px;
+        margin-top: 56px;
+        padding-top: 28px;
+        padding-bottom: 32px;
+      }
+      .public-home {
+        padding-top: 56px;
+        padding-bottom: 64px;
+      }
+      .public-home .grid {
+        gap: 22px;
+      }
+      .public-home .grid .card {
+        min-height: 100%;
+      }
+      .public-home .grid + .card {
+        margin-top: 32px !important;
+      }
+      .public-home h2 {
+        margin-top: 48px !important;
+        margin-bottom: 20px;
+      }
+      .public-home details {
+        padding: 16px 4px;
+      }
+      .public-home details p {
+        max-width: 760px;
+        margin: 10px 0 2px;
+        color: var(--mu);
       }
       .top {
         padding: 10px max(16px, calc((100vw - 1100px) / 2));
@@ -1596,7 +1623,7 @@
           const n = stu().length,
             t = DB.camp.target;
           return pub(
-            `<section class="hero"><video id="hv" class="hv" muted autoplay loop playsinline aria-hidden="true"></video><div class="hov"></div><div class="chips"><span>Free</span><span>Online</span><span>60 minutes</span><span>Beginner-friendly</span></div><h1>Stop Just Exploring AI. Start Building It.</h1><p>Turn your curiosity about AI into hands-on experience. Join a free, beginner-friendly workshop to explore AI development, build practical skills, and take your first step toward creating a project of your own—all in just 60 minutes.</p><!-- <div class="pg" role="progressbar" aria-valuenow="${n}" aria-valuemax="${t}"><i style="width:${Math.min(100, (n / t) * 100)}%"></i></div><p><span class="kpi"><b style="display:inline;font-size:inherit">${n}</b></span> of ${t} registrations · ${((n / t) * 100).toFixed(1)}% <span class="tag">DEMO DATA</span></p> --><div class="acts"><button class="btn p" data-a="go" data-v="register">Start building</button><button class="btn" data-a="scroll">See what to expect ↓</button></div></section><div class="wrap" id="how">${info}<div class="card" style="margin-top:20px;text-align:center"><h2>Ready to start?</h2><button class="btn p" data-a="go" data-v="register">Create your account</button></div></div>`,
+            `<section class="hero"><video id="hv" class="hv" muted autoplay loop playsinline aria-hidden="true"></video><div class="hov"></div><div class="chips"><span>Free</span><span>Online</span><span>60 minutes</span><span>Beginner-friendly</span></div><h1>Stop Just Exploring AI. Start Building It.</h1><p>Turn your curiosity about AI into hands-on experience. Join a free, beginner-friendly workshop to explore AI development, build practical skills, and take your first step toward creating a project of your own—all in just 60 minutes.</p><!-- <div class="pg" role="progressbar" aria-valuenow="${n}" aria-valuemax="${t}"><i style="width:${Math.min(100, (n / t) * 100)}%"></i></div><p><span class="kpi"><b style="display:inline;font-size:inherit">${n}</b></span> of ${t} registrations · ${((n / t) * 100).toFixed(1)}% <span class="tag">DEMO DATA</span></p> --><div class="acts"><button class="btn p" data-a="go" data-v="register">Start building</button><button class="btn" data-a="scroll">See what to expect ↓</button></div></section><div class="wrap public-home" id="how">${info}<div class="card" style="margin-top:20px;text-align:center"><h2>Ready to start?</h2><button class="btn p" data-a="go" data-v="register">Create your account</button></div></div>`,
           );
         },
         details() {
